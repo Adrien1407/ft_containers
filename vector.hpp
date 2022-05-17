@@ -23,6 +23,11 @@ namespace ft
         typedef typename ft::size_type size_type;
 
     private:
+    		allocator_type _alloc;
+			value_type *_ptr;
+			size_type _capacity;
+			size_type _size_container;
+
     public:
         // Constructors
         explicit vector(const allocator_type &alloc = allocator_type()){
@@ -44,33 +49,36 @@ namespace ft
 
         // ITERATORS
         iterator begin(){
-
+            return (iterator(_ptr));
         };
         const_iterator begin() const {
-
+            return (const_iterator(_ptr));
         };
         iterator end(){
-
+            return(iterator(_ptr) + _size_container);
         };
         const_iterator end() const {
-
+            return(const_iterator(_ptr) + _size_container);
         };
         reverse_iterator rbegin(){
+            return(reverse_iterator(_ptr) + _size_container);
 
         };
         const_reverse_iterator rbegin() const {
-
+            return(const_reverse_iterator(_ptr) + _size_container);
         };
         reverse_iterator rend(){
+            return(reverse_iterator(_ptr));
 
         };
         const_reverse_iterator rend() const {
+            return(const__reverse_iterator(_ptr));
 
         };
 
         // capacity
         size_type size() const {
-
+                return (_size_container);
         };
         size_type max_size() const {
 
@@ -79,10 +87,10 @@ namespace ft
 
         };
         size_type capacity() const {
-
+                return (_capacity);
         };
         bool empty() const {
-
+                    return (size() == 0 ? true : false);
         };
         void reserve(size_type n){
 
@@ -95,22 +103,28 @@ namespace ft
 
         };
         reference at(size_type n){
-
+            if (n >= size())
+                throw(std::out_of_range("ft::vecotr::at")));
+            else
+                return ((*this)[n]);
         };
         const_reference at(size_type n) const {
-
+            if (n >= size())
+                throw(std::out_of_range("ft::vecotr::at")));
+            else
+                return ((*this)[n]);
         };
         reference front(){
-
+            return ((*this)[0]);
         };
         const_reference front() const {
-
+            return ((*this)[0]);
         };
         reference back(){
-
+            return ((*this)[_size_container - 1]);
         };
         const_reference back() const {
-
+            return ((*this)[_size_container - 1]);
         };
         // Modifiers
 
@@ -163,10 +177,16 @@ namespace ft
         // relationnal operators
         template <class T, class Alloc>
         bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs){
+                if (lhs.size() == rhs.size())
+                    if (lhs.begin() == rhs.begin())
+                        if (lhs.end() == rhs.end())
+                            return (true);
+           return (false);
 
-        };
+    };
         template <class T, class Alloc>
         bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs){
+                return (lhs != rhs ? true : false);
 
         };
         template <class T, class Alloc>
