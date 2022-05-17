@@ -2,6 +2,7 @@
 #define VECTOR_HPP
 
 #include <iostream>
+#include "iterator.hpp"
 
 namespace ft
 {
@@ -15,7 +16,7 @@ namespace ft
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef typename ft::iterator iterator;
+        typedef typename ft::random_access_iterator<T> iterator;
         typedef typename ft::const_iterator const_iterator;
         typedef typename ft::reverse_iterator reverse_iterator;
         typedef typename ft::const_reverse_iterator const_reverse_iterator;
@@ -23,10 +24,10 @@ namespace ft
         typedef typename ft::size_type size_type;
 
     private:
-    		allocator_type _alloc;
-			value_type *_ptr;
-			size_type _capacity;
-			size_type _size_container;
+        allocator_type _alloc;
+        value_type *_ptr;
+        size_type _capacity;
+        size_type _size_container;
 
     public:
         // Constructors
@@ -48,37 +49,43 @@ namespace ft
         };
 
         // ITERATORS
-        iterator begin(){
+        iterator begin()
+        {
             return (iterator(_ptr));
         };
-        const_iterator begin() const {
+        const_iterator begin() const
+        {
             return (const_iterator(_ptr));
         };
-        iterator end(){
-            return(iterator(_ptr) + _size_container);
+        iterator end()
+        {
+            return (iterator(_ptr) + _size_container);
         };
-        const_iterator end() const {
-            return(const_iterator(_ptr) + _size_container);
+        const_iterator end() const
+        {
+            return (const_iterator(_ptr) + _size_container);
         };
-        reverse_iterator rbegin(){
-            return(reverse_iterator(_ptr) + _size_container);
-
+        reverse_iterator rbegin()
+        {
+            return (reverse_iterator(_ptr) + _size_container);
         };
-        const_reverse_iterator rbegin() const {
-            return(const_reverse_iterator(_ptr) + _size_container);
+        const_reverse_iterator rbegin() const
+        {
+            return (const_reverse_iterator(_ptr) + _size_container);
         };
-        reverse_iterator rend(){
-            return(reverse_iterator(_ptr));
-
+        reverse_iterator rend()
+        {
+            return (reverse_iterator(_ptr));
         };
-        const_reverse_iterator rend() const {
-            return(const__reverse_iterator(_ptr));
-
+        const_reverse_iterator rend() const
+        {
+            return (const__reverse_iterator(_ptr));
         };
 
         // capacity
-        size_type size() const {
-                return (_size_container);
+        size_type size() const
+        {
+            return (_size_container);
         };
         size_type max_size() const {
 
@@ -86,11 +93,13 @@ namespace ft
         void resize(size_type n, value_type val = value_type()){
 
         };
-        size_type capacity() const {
-                return (_capacity);
+        size_type capacity() const
+        {
+            return (_capacity);
         };
-        bool empty() const {
-                    return (size() == 0 ? true : false);
+        bool empty() const
+        {
+            return (size() == 0 ? true : false);
         };
         void reserve(size_type n){
 
@@ -102,28 +111,34 @@ namespace ft
         const_reference operator[](size_type n) const {
 
         };
-        reference at(size_type n){
+        reference at(size_type n)
+        {
             if (n >= size())
                 throw(std::out_of_range("ft::vecotr::at")));
             else
                 return ((*this)[n]);
         };
-        const_reference at(size_type n) const {
+        const_reference at(size_type n) const
+        {
             if (n >= size())
                 throw(std::out_of_range("ft::vecotr::at")));
             else
                 return ((*this)[n]);
         };
-        reference front(){
+        reference front()
+        {
             return ((*this)[0]);
         };
-        const_reference front() const {
+        const_reference front() const
+        {
             return ((*this)[0]);
         };
-        reference back(){
+        reference back()
+        {
             return ((*this)[_size_container - 1]);
         };
-        const_reference back() const {
+        const_reference back() const
+        {
             return ((*this)[_size_container - 1]);
         };
         // Modifiers
@@ -176,18 +191,18 @@ namespace ft
         };
         // relationnal operators
         template <class T, class Alloc>
-        bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs){
-                if (lhs.size() == rhs.size())
-                    if (lhs.begin() == rhs.begin())
-                        if (lhs.end() == rhs.end())
-                            return (true);
-           return (false);
-
-    };
+        bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+        {
+            if (lhs.size() == rhs.size())
+                if (lhs.begin() == rhs.begin())
+                    if (lhs.end() == rhs.end())
+                        return (true);
+            return (false);
+        };
         template <class T, class Alloc>
-        bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs){
-                return (lhs != rhs ? true : false);
-
+        bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+        {
+            return (lhs != rhs ? true : false);
         };
         template <class T, class Alloc>
         bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs){
