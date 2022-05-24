@@ -17,20 +17,20 @@
 
 namespace ft
 {
-    template <typename T>
+    template <class iterator>
     class reverse_iterator
-        : public iterator<typename iterator_traits<_Iterator>::iterator_category,
-                          typename iterator_traits<_Iterator>::value_type,
-                          typename iterator_traits<_Iterator>::difference_type,
-                          typename iterator_traits<_Iterator>::pointer,
-                          typename iterator_traits<_Iterator>::reference>
+        : public ft::iterator<typename iterator_traits<iterator>::iterator_category,
+                          typename iterator_traits<iterator>::value_type,
+                          typename iterator_traits<iterator>::difference_type,
+                          typename iterator_traits<iterator>::pointer,
+                          typename iterator_traits<iterator>::reference>
     {
     protected:
-        _Iterator current;
-        typedef iterator_traits<_Iterator> __traits_type;
+        iterator current;
+        typedef iterator_traits<iterator> __traits_type;
 
     public:
-        typedef _Iterator iterator_type;
+        typedef iterator iterator_type;
         typedef typename __traits_type::difference_type difference_type;
         typedef typename __traits_type::pointer pointer;
         typedef typename __traits_type::reference reference;
@@ -47,7 +47,7 @@ namespace ft
         }
         reference operator*() const
         {
-            _Iterator __tmp = current;
+            iterator __tmp = current;
             return *--__tmp;
         }
         pointer operator->() const
