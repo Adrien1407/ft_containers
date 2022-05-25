@@ -42,7 +42,6 @@ namespace ft
                 _elem = cpy._elem;
             return (*this);
         };
-        // relationnal operators
 
         pointer base() const
         {
@@ -57,6 +56,8 @@ namespace ft
         {
             return (*_elem);
         };
+
+        // relationnal operators
 
         bool operator<(const random_access_iterator &src) const
         {
@@ -108,10 +109,19 @@ namespace ft
             _elem--;
             return (tmp);
         };
-        random_access_iterator &operator--()
+        random_access_iterator &operator-=(difference_type n)
         {
-            _elem++;
+            _elem -= n;
             return (*this);
+        };
+        random_access_iterator &operator+=(difference_type n)
+        {
+            _elem += n;
+            return (*this);
+        };
+        random_access_iterator &operator[](difference_type n) const
+        {
+            return (_elem[n]);
         };
     };
     template <class T>
