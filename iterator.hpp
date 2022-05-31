@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 13:41:42 by adlancel          #+#    #+#             */
-/*   Updated: 2022/05/18 14:27:21 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/05/31 17:18:55 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ namespace ft
     template <class T>
     struct iterator_traits<T *>
     {
-        typedef random_access_iterator_tag iterator_category;
+        typedef ft::random_access_iterator_tag iterator_category;
         typedef T value_type;
         typedef ptrdiff_t difference_type;
         typedef T *pointer;
@@ -62,7 +62,7 @@ namespace ft
     template <class T>
     struct iterator_traits<const T *>
     {
-        typedef random_access_iterator_tag iterator_category;
+        typedef ft::random_access_iterator_tag iterator_category;
         typedef T value_type;
         typedef ptrdiff_t difference_type;
         typedef const T *pointer;

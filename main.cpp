@@ -9,11 +9,12 @@
 
 int main(void)
 {
-    ft::vector<int> vec;
-    ft::vector<int> vec1(vec);
-    
-    std::cout << sizeof(vec) << std::endl; 
-    std::cout << sizeof(vec1) << std::endl; 
+	ft::vector<int> vec(3, 100);
+	std::vector<int> vec1(3, 100);
+	ft::vector<int>::iterator it; 
+
+	it = vec.begin();
+	std::cout << *(it + 1) << std::endl; 
 
 
 }
