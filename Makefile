@@ -6,15 +6,20 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/25 14:28:17 by adlancel          #+#    #+#              #
-#    Updated: 2022/06/06 16:50:55 by adlancel         ###   ########.fr        #
+#    Updated: 2022/06/08 14:18:15 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = containers 
 
-SRCS = main.cpp
+SRCS = mains/main.cpp
 
-HEADER = ./iterator.hpp ./map.hpp ./vector.hpp ./random_access_iterator.hpp ./stack.hpp ./ft_enable_if.hpp
+HEADER = ../includes/iterator.hpp \
+		 ../includes/map.hpp \
+		 ../includes/vector.hpp \
+		 ../includes/random_access_iterator.hpp \
+		 ../includes/stack.hpp \
+		 ../includes/ft_enable_if.hpp
 CXX = c++
 
 CXXFLAGS = -Wextra -Werror -Wall -std=c++98
