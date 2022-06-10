@@ -27,7 +27,7 @@ namespace ft
 			typedef T *pointer;
 			typedef T &reference;
 */
-			typedef T value_type;
+		typedef T value_type;
 		typedef T &reference;
 		typedef T *pointer;
 		typedef const T &const_reference;
@@ -35,13 +35,14 @@ namespace ft
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
 		typedef typename ft::random_access_iterator_tag iterator_category;
+		
 		private:
 			pointer _elem;
 
 		public:
 			random_access_iterator() : _elem(0){};
 			random_access_iterator(pointer ptr) : _elem(ptr){};
-			random_access_iterator(random_access_iterator<T> const &cpy) : _elem(cpy._elem){};
+			random_access_iterator(const random_access_iterator<T> &cpy) : _elem(cpy._elem){};
 			virtual ~random_access_iterator(){};
 
 			random_access_iterator &operator=(random_access_iterator<T> const &cpy)
@@ -50,11 +51,16 @@ namespace ft
 					_elem = cpy._elem;
 				return (*this);
 			};
+			
+			operator random_access_iterator<T const>() const
+			{
+				return random_access_iterator<T const>(_elem);
+			};
 
 			pointer base() const
 			{
 				return (_elem);
-			}
+			};
 			pointer operator->()
 			{
 				return (_elem);
@@ -116,6 +122,11 @@ namespace ft
 				random_access_iterator tmp = *this;
 				_elem--;
 				return (tmp);
+			};		
+			random_access_iterator &operator--()
+			{
+				_elem--;
+				return (*this);
 			};
 			random_access_iterator &operator-=(difference_type n)
 			{
