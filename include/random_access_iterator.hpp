@@ -21,12 +21,7 @@ namespace ft
 		class random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
 	{
 		public:
-		/*	typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category iterator_category;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type value_type;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type difference_type;
-			typedef T *pointer;
-			typedef T &reference;
-*/
+ 
 		typedef T value_type;
 		typedef T &reference;
 		typedef T *pointer;
@@ -98,11 +93,11 @@ namespace ft
 				return (_elem == src._elem);
 			};
 
-			random_access_iterator operator+(difference_type _n)
+			random_access_iterator operator+(difference_type _n) const
 			{
 				return (_elem + _n);
 			};
-			random_access_iterator operator-(difference_type _n)
+			random_access_iterator operator-(difference_type _n) const
 			{
 				return (_elem - _n);
 			};
@@ -142,6 +137,18 @@ namespace ft
 			{
 				return (_elem[n]);
 			};
+	template <class it1, class it2>
+		friend bool operator==(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
+	template <class it1, class it2>
+		friend bool operator!=(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
+	template <class it1, class it2>
+		friend bool operator>=(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
+	template <class it1, class it2>
+		friend bool operator<=(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
+	template <class it1, class it2>
+		friend bool operator<(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
+	template <class it1, class it2>
+		friend bool operator>(const random_access_iterator<it1> &lhs, const random_access_iterator<it2> &rhs);
 	};
 	template <class T>
 		ft::random_access_iterator<T> operator+(typename random_access_iterator<T>::difference_type n, const random_access_iterator<T> &rhs)
