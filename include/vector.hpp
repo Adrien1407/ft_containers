@@ -294,7 +294,7 @@ namespace ft
 			difference_type index = position - begin();
 			if (n + _size_container > _capacity)
 			{
-			size_t new_capacity = (_size_container > 0)? (_size_container + n) * 2: n;
+			size_t new_capacity =  (2 * _capacity > n +_size_container)? _size_container * 2 : n + _size_container;
 				if (new_capacity > max_size())
 					throw(std::length_error("vector::reserve"));
 				else
@@ -359,8 +359,7 @@ namespace ft
 			difference_type index = position - begin();
 			if (n + _size_container > _capacity)
 			{
-				// resize
-			size_t new_capacity = (_size_container > 0)? (_size_container + n) * 2: n;
+			size_t new_capacity =  (2 * _capacity > n +_size_container)? _size_container * 2 : n + _size_container;
 				if (new_capacity > max_size())
 					throw(std::length_error("vector::reserve"));
 				else
