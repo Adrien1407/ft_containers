@@ -22,7 +22,9 @@ HEADER = ../includes/iterator.hpp \
 		 ../includes/ft_enable_if.hpp
 CXX = c++
 
-CXXFLAGS = -Wextra -Werror -Wall -std=c++98 -g
+#CXXFLAGS = -Wextra -Werror -Wall -std=c++98 -g
+CXXFLAGS = -std=c++98 -g
+
 
 OBJS = ${SRCS:.cpp=.o}
 

@@ -7,28 +7,44 @@
 #include "../include/reverse_iterator.hpp"
 #include "../include/random_access_iterator.hpp"
 
+template <class T>
+void	print_vector(ft::vector<T> &test)
+{
+	typename ft::vector<T>::iterator		beg = test.begin();
+	typename ft::vector<T>::iterator		end = test.end();
+	std::cout << "size : " << test.size() << ", capacity : " << test.capacity() << std::endl;
+	for (typename ft::vector<T>::iterator it = beg; it != end; it++)
+	{
+		std::cout << *it << " ";
+		if (((it - beg) % 10 == 9) && it > beg)
+			std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
 
+template <class T>
+void	copy_swap_tests(void)
+{
+	std::cout << std::endl << "COPY && SWAP TESTS" << std::endl;
+	ft::vector<T> test;
+	for (size_t i = 0; i < 50; i++) { test.push_back(i); }
+	ft::vector<T> test_copy(test);
+	for (size_t i = 0; i < test_copy.size(); i++) { test_copy[i] += 100; }
+	print_vector<T>(test_copy);
+	ft::vector<T> test_range(test.begin() + 20, test.begin() + 30);
+	print_vector<T>(test_range);
+	test_copy.swap(test);
+	print_vector<T>(test);
+	print_vector<T>(test_copy);
+	test_copy.swap(test_range);
+	print_vector<T>(test_range);
+	print_vector<T>(test_copy);
+	test.swap(test_copy);
+	print_vector<T>(test);
+	print_vector<T>(test_copy);
+}
 
 int main()
-{	//INSERT
-ft::vector<int> test(3,3);
-	std::cout << "\nINSERT\n";
-	ft::vector<ft::vector<int> >	insert_in_me;
-	// for (int i = 0; i < 15; i++)
-	// {
-	// 	ft::vector<int>	j(2, i);
-	// 	insert_in_me.push_back(j);
-	// }
-	// for (size_t i = 0; i < insert_in_me.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < insert_in_me.at(i).size(); j++)
-	// 		std::cout << insert_in_me.at(i).at(j) << ' ';
-	// 	std::cout << '\n';
-	// }
-
-	ft::vector<ft::vector<int> >::iterator	tmp;
-	test.assign(23, 19);
-	tmp = insert_in_me.begin() + 4;
-	insert_in_me.insert(tmp, 8, test);
-
+{	
+copy_swap_tests<int>;
 }
