@@ -7,44 +7,28 @@
 #include "../include/reverse_iterator.hpp"
 #include "../include/random_access_iterator.hpp"
 
-template<class T>
-void	resize_tests(void)
-{
-	std::cout << std::endl << "RESIZE TESTS" << std::endl;
-	ft::vector<T> test(12, 12);
 
-	test.resize(72);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(100);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(4170);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(171, 12);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(62);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-}
-template <class T>
-void	resize_tests2(void)
-{
-	std::cout << std::endl << "RESIZE TESTS" << std::endl;
-	std::vector<T> test(12, 12);
 
-	test.resize(72);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(100);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(4170);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(171, 12);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-	test.resize(62);
-	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
-}
+int main()
+{	//INSERT
+ft::vector<int> test(3,3);
+	std::cout << "\nINSERT\n";
+	ft::vector<ft::vector<int> >	insert_in_me;
+	// for (int i = 0; i < 15; i++)
+	// {
+	// 	ft::vector<int>	j(2, i);
+	// 	insert_in_me.push_back(j);
+	// }
+	// for (size_t i = 0; i < insert_in_me.size(); i++)
+	// {
+	// 	for (size_t j = 0; j < insert_in_me.at(i).size(); j++)
+	// 		std::cout << insert_in_me.at(i).at(j) << ' ';
+	// 	std::cout << '\n';
+	// }
 
-int main ()
-{
-resize_tests<int>();
-resize_tests2<int>();
+	ft::vector<ft::vector<int> >::iterator	tmp;
+	test.assign(23, 19);
+	tmp = insert_in_me.begin() + 4;
+	insert_in_me.insert(tmp, 8, test);
 
 }

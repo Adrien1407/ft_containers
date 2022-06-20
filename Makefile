@@ -6,7 +6,7 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/25 14:28:17 by adlancel          #+#    #+#              #
-#    Updated: 2022/06/08 14:18:15 by adlancel         ###   ########.fr        #
+#    Updated: 2022/06/15 11:45:21 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ HEADER = ../includes/iterator.hpp \
 		 ../includes/ft_enable_if.hpp
 CXX = c++
 
-CXXFLAGS = -Wextra -Werror -Wall -std=c++98
+CXXFLAGS = -Wextra -Werror -Wall -std=c++98 -g
 
 OBJS = ${SRCS:.cpp=.o}
 
