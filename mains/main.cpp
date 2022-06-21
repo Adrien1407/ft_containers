@@ -21,30 +21,26 @@ void	print_vector(ft::vector<T> &test)
 	}
 	std::cout << std::endl;
 }
-
+	
 template <class T>
-void	copy_swap_tests(void)
+void	resize_tests(void)
 {
-	std::cout << std::endl << "COPY && SWAP TESTS" << std::endl;
-	ft::vector<T> test;
-	for (size_t i = 0; i < 50; i++) { test.push_back(i); }
-	ft::vector<T> test_copy(test);
-	for (size_t i = 0; i < test_copy.size(); i++) { test_copy[i] += 100; }
-	print_vector<T>(test_copy);
-	ft::vector<T> test_range(test.begin() + 20, test.begin() + 30);
-	print_vector<T>(test_range);
-	test_copy.swap(test);
-	print_vector<T>(test);
-	print_vector<T>(test_copy);
-	test_copy.swap(test_range);
-	print_vector<T>(test_range);
-	print_vector<T>(test_copy);
-	test.swap(test_copy);
-	print_vector<T>(test);
-	print_vector<T>(test_copy);
+	std::cout << std::endl << "RESIZE TESTS" << std::endl;
+	ft::vector<T> test(12, 12);
+
+	test.resize(72);
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	test.resize(100);
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	test.resize(4170);
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	test.resize(171, 12);
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	test.resize(62);
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 }
 
 int main()
-{	
-copy_swap_tests<int>;
+{
+resize_tests<int>();
 }
