@@ -107,22 +107,22 @@ namespace ft
 	template <class iterator>
 		bool operator<(const reverse_iterator<iterator> &lhs, const reverse_iterator<iterator> &rhs)
 		{
-			return (lhs.base() > rhs.base());
+			return (lhs.base() < rhs.base());
 		};
 	template <class iterator>
 		bool operator>(const reverse_iterator<iterator> &lhs, const reverse_iterator<iterator> &rhs)
 		{
-			return (lhs.base() < rhs.base());
+			return (lhs.base() > rhs.base());
 		};
 	template <class iterator>
 		bool operator>=(const reverse_iterator<iterator> &lhs, const reverse_iterator<iterator> &rhs)
 		{
-			return (lhs.base() <= rhs.base());
+			return (lhs.base() >= rhs.base());
 		};
 	template <class iterator>
 		bool operator<=(const reverse_iterator<iterator> &lhs, const reverse_iterator<iterator> &rhs)
 		{
-			return (lhs.base() >= rhs.base());
+			return (lhs.base() <= rhs.base());
 		};
 	template <class iterator>
 		bool operator!=(const reverse_iterator<iterator> &lhs, const reverse_iterator<iterator> &rhs)

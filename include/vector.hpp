@@ -73,15 +73,16 @@ namespace ft
 			}
 		};
 
-		vector (const vector& x)
-			{
-				this->insert(this->begin(), x.begin(), x.end());
-			};
+		vector(vector const &x) : _alloc(allocator_type()), _ptr(0), _capacity(0), _size_container(0)
+		{
+
+			*this = x;
+		};
 
 		vector &operator=(vector<T, allocator_type> const &x)
 		{
 
-			if (*this != x)
+			if (this != &x)
 			{
 				clear();
 				assign(x.begin(), x.end());
@@ -153,20 +154,18 @@ namespace ft
 			{
 				for (size_type i = n; i < _size_container; i++)
 					_alloc.destroy(_ptr + i);
+
 			}
 			else
 			{
-				if (_capacity < n)
-				{
 				size_t new_capacity = 0;
 				if (_capacity == 0)
 					new_capacity = 1;
 				else
-					new_capacity = _size_container * 2;
+					new_capacity = _capacity * 2;
 				if (new_capacity < n)
 					new_capacity = n;
 				reserve(new_capacity);
-				}
 				for (size_type i = _size_container; i < n; i++)
 					_alloc.construct(_ptr + i, val);
 			}
@@ -246,31 +245,25 @@ namespace ft
 		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
 		{
 			clear();
-		difference_type n = ft::distance(first, last);
-		size_t i = n;
-			if (i > _capacity)
+			if (_capacity)
 				_alloc.deallocate(_ptr, _capacity);
 			_size_container = 0;
-			if (i > 0 && i > _capacity)
-			{
+			difference_type n = ft::distance(first, last);
+			if (n > 0)
 				_ptr = _alloc.allocate(n);
-				_capacity = n;
-			}
+			_capacity = n;
 			for (; first != last; first++)
 				push_back(*first);
 		};
 		void assign(size_type n, const value_type &val)
 		{
 			clear();
-			if (n > _capacity)
+			if (_capacity)
 				_alloc.deallocate(_ptr, _capacity);
 			_size_container = 0;
-			size_t i = n;
-				if (i > 0 && i > _capacity)
-			{
+			if (n > 0)
 				_ptr = _alloc.allocate(n);
-				_capacity = n;
-			}
+			_capacity = n;
 			for (size_t i = 0; i < n; i++)
 				push_back(val);
 		};
@@ -321,7 +314,7 @@ namespace ft
 		void insert(iterator position, InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
 		{
-			std::cout << "FUCK" << std::endl;
+			{
 				difference_type const idx = position - this->begin();
 				difference_type const old_end_idx = this->end() - this->begin();
 				iterator old_end, end;
@@ -333,6 +326,7 @@ namespace ft
 					*--end = *--old_end;
 				while (first != last)
 					*position++ = *first++;
+			}
 		}
 
 		iterator erase(iterator pos)
