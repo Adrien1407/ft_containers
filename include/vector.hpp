@@ -162,7 +162,7 @@ namespace ft
 				if (_capacity == 0)
 					new_capacity = 1;
 				else
-					new_capacity = _capacity * 2;
+					new_capacity = _size_container * 2;
 				if (new_capacity < n)
 					new_capacity = n;
 				reserve(new_capacity);
