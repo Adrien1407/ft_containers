@@ -47,9 +47,9 @@ namespace ft
 
 	public:
 		// Constructors
-		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0){
-
-																												};
+		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0)
+		{
+		};
 
 		explicit vector(size_type n, const T &val = T(),
 						const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(n), _size_container(n)
@@ -68,14 +68,11 @@ namespace ft
 			_capacity = n;
 			_size_container = 0;
 			for (; first != last; first++)
-			{
 				push_back(*first);
-			}
 		};
 
 		vector(vector const &x) : _alloc(allocator_type()), _ptr(0), _capacity(0), _size_container(0)
 		{
-
 			*this = x;
 		};
 
@@ -85,13 +82,12 @@ namespace ft
 			if (this != &x)
 			{
 				clear();
-				assign(x.begin(), x.end());
+				this->insert(this->end(), x.begin(), x.end());
 			}
 			return (*this);
 		};
 		virtual ~vector(void)
 		{
-
 			clear();
 			if (_capacity > 0)
 				_alloc.deallocate(_ptr, _capacity);
@@ -295,11 +291,14 @@ namespace ft
 
 		void insert(iterator position, size_t n, const value_type &val)
 		{
+
 			difference_type const idx = position - this->begin();
 			difference_type const old_end_idx = this->end() - this->begin();
 			iterator old_end, end;
 			if (n + _size_container > _capacity)
-				this->resize(this->_size_container + n);
+			{
+				this->resize(_size_container + n);
+			}
 			else
 				_size_container += n;
 			end = this->end();
@@ -316,7 +315,7 @@ namespace ft
 		void insert(iterator position, InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
 		{
-			{
+			
 				difference_type const idx = position - this->begin();
 				difference_type const old_end_idx = this->end() - this->begin();
 				iterator old_end, end;
@@ -332,7 +331,7 @@ namespace ft
 					*--end = *--old_end;
 				while (first != last)
 					*position++ = *first++;
-			}
+			
 		}
 
 		iterator erase(iterator pos)
@@ -378,8 +377,11 @@ namespace ft
 
 		void clear()
 		{
-			for (iterator it = this->begin(); it != this->end(); ++it)
-				_alloc.destroy(&(*it));
+		if (_capacity > 0)
+			while (_size_container)
+				{
+					_alloc.destroy(_ptr + --_size_container);
+				}
 			_size_container = 0;
 		};
 
