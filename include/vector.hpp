@@ -22,7 +22,7 @@
 
 namespace ft
 {
-	template <class T, class Allocator = std::allocator<T> > 
+	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
 	public:
@@ -154,7 +154,6 @@ namespace ft
 			{
 				for (size_type i = n; i < _size_container; i++)
 					_alloc.destroy(_ptr + i);
-
 			}
 			else
 			{
@@ -299,7 +298,10 @@ namespace ft
 			difference_type const idx = position - this->begin();
 			difference_type const old_end_idx = this->end() - this->begin();
 			iterator old_end, end;
-			this->resize(this->_size_container + n);
+			if (n + _size_container > _capacity)
+				this->resize(this->_size_container + n);
+			else
+				_size_container += n;
 			end = this->end();
 			position = this->begin() + idx;
 			old_end = this->begin() + old_end_idx;
@@ -318,7 +320,11 @@ namespace ft
 				difference_type const idx = position - this->begin();
 				difference_type const old_end_idx = this->end() - this->begin();
 				iterator old_end, end;
-				this->resize(this->_size_container + (ft::distance(first, last)));
+				difference_type n = ft::distance(first, last);
+				if (n + _size_container > _capacity)
+					this->resize(this->_size_container + n);
+				else
+					_size_container += n;
 				end = this->end();
 				position = this->begin() + idx;
 				old_end = this->begin() + old_end_idx;
