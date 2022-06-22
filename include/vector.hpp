@@ -244,25 +244,25 @@ namespace ft
 		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
 		{
 			clear();
-			if (_capacity)
-				_alloc.deallocate(_ptr, _capacity);
-			_size_container = 0;
 			difference_type n = ft::distance(first, last);
-			if (n > 0)
+			if ((long)_capacity < n)
+			{
+				_alloc.deallocate(_ptr, _capacity);
 				_ptr = _alloc.allocate(n);
-			_capacity = n;
+				_capacity = n;
+			}
 			for (; first != last; first++)
 				push_back(*first);
 		};
 		void assign(size_type n, const value_type &val)
 		{
 			clear();
-			if (_capacity)
+			if (_capacity < n)
+			{
 				_alloc.deallocate(_ptr, _capacity);
-			_size_container = 0;
-			if (n > 0)
 				_ptr = _alloc.allocate(n);
-			_capacity = n;
+				_capacity = n;
+			}
 			for (size_t i = 0; i < n; i++)
 				push_back(val);
 		};
