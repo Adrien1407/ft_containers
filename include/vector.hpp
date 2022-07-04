@@ -47,22 +47,23 @@ namespace ft
 
 	public:
 		// Constructors
-		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0)
-		{
-		};
+		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0){
+
+																												};
 
 		explicit vector(size_type n, const T &val = T(),
-						const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(n), _size_container(n)
+						const allocator_type &alloc = allocator_type()) : _alloc(alloc), _capacity(n), _size_container(n)
 		{
-			_ptr = _alloc.allocate(n);
+			_ptr = _alloc.allocate(_capacity);
 			for (size_t i = 0; i < n; i++)
 			{
-				_alloc.construct(_ptr + i, val);
+				_alloc.construct(&_ptr[i], val);
 			}
 		};
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t) : _alloc(alloc)
 		{
+
 			difference_type n = ft::distance(first, last);
 			_ptr = _alloc.allocate(n);
 			_capacity = n;
@@ -73,24 +74,23 @@ namespace ft
 
 		vector(vector const &x) : _alloc(allocator_type()), _ptr(0), _capacity(0), _size_container(0)
 		{
-			*this = x;
+			insert(begin(), x.begin(), x.end());
 		};
 
 		vector &operator=(vector<T, allocator_type> const &x)
 		{
-
 			if (this != &x)
 			{
 				clear();
-				this->insert(this->end(), x.begin(), x.end());
+				insert(end(), x.begin(), x.end());
 			}
 			return (*this);
 		};
 		virtual ~vector(void)
 		{
-			clear();
-			if (_capacity > 0)
-				_alloc.deallocate(_ptr, _capacity);
+			for (size_t i = 0; i < _size_container; i++)
+				_alloc.destroy(&_ptr[i]);
+			_alloc.deallocate(_ptr, _capacity);
 		};
 		// ITERATORS
 		iterator begin()
@@ -276,8 +276,10 @@ namespace ft
 		};
 		void pop_back()
 		{
-			if (_size_container)
+			if (_size_container > 0)
 			{
+				// std::cout << "size = " << _size_container << std::endl;
+
 				_alloc.destroy(_ptr + (_size_container - 1));
 				_size_container--;
 			}
@@ -289,51 +291,104 @@ namespace ft
 			return begin() + index;
 		}
 
-		void insert(iterator position, size_t n, const value_type &val)
+		// 	void insert(iterator position, size_t n, const value_type &val)
+		// 	{
+		// 		std::cout << "insert 2\n";
+
+		// 		difference_type const idx = position - this->begin();
+		// 		difference_type const old_end_idx = this->end() - this->begin();
+		// 		iterator old_end, end;
+		// 		if (n + _size_container > _capacity)
+		// 		{
+		// 			std::cout << "n + size > _capacity\n";
+		// 			this->resize(_size_container + n);
+		// 		}
+		// 		else
+		// 		{
+		// 			std::cout << "n + size NOT > _capacity\n";
+		// 			std::cout << "size = " << _size_container << std::endl;
+		// 			_size_container += n;
+		// 			std::cout << "size = " << _size_container << std::endl;
+		// 			std::cout << "old end_idx " << old_end_idx << std::endl;
+		// 		}
+		// 		end = this->end();
+		// 		position = this->begin() + idx;
+		// 		old_end = this->begin() + old_end_idx;
+		// 			std::cout << "old end " << (*old_end) << std::endl;
+
+		// //		while (old_end != position)
+		// 			//*--end = *--old_end;
+		// 		while (n-- > 0)
+		// 			*position++ = val;
+		// 	}
+		void insert(iterator pos, size_type count, const value_type &value)
 		{
 
-			difference_type const idx = position - this->begin();
-			difference_type const old_end_idx = this->end() - this->begin();
-			iterator old_end, end;
-			if (n + _size_container > _capacity)
-			{
-				this->resize(_size_container + n);
-			}
+			size_type index = pos - begin();
+			if (!count)
+				return;
+		if (count + _size_container > _capacity)
+{
+			size_t new_capacity = 0;
+			if (_capacity == 0)
+				new_capacity = 1;
 			else
-				_size_container += n;
-			end = this->end();
-			position = this->begin() + idx;
-			old_end = this->begin() + old_end_idx;
-			while (old_end != position)
-				*--end = *--old_end;
-			while (n-- > 0)
-				*position++ = val;
-		}
+				new_capacity = _size_container * 2;
+			if (new_capacity < _size_container + count)
+				new_capacity = _size_container + count;
+			reserve(new_capacity); // (otherwhise iterator `pos` is invalidated)
+}
+			std::allocator<T> alloc;
 
-		// insert range (3)
-		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last,
-					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
+			for (ptrdiff_t i = _size_container - 1; i >= (ptrdiff_t)index; i--)
+			{
+				// move elements count times to the right
+				alloc.construct(&_ptr[i + count], _ptr[i]); // copy constructor
+				alloc.destroy(&_ptr[i]);					// call destructor
+			}
+
+			for (size_type i = index; i < index + count; i++)
+				alloc.construct(&_ptr[i], value); // copy constructor
+
+			_size_container += count;
+		}
+		
+			// insert range (3)
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr_t)
 		{
-			
-				difference_type const idx = position - this->begin();
-				difference_type const old_end_idx = this->end() - this->begin();
-				iterator old_end, end;
-				difference_type n = ft::distance(first, last);
-				if (n + _size_container > _capacity)
-					this->resize(this->_size_container + n);
-				else
-					_size_container += n;
-				end = this->end();
-				position = this->begin() + idx;
-				old_end = this->begin() + old_end_idx;
-				while (old_end != position)
-					*--end = *--old_end;
-				while (first != last)
-					*position++ = *first++;
-			
+			size_type index = position - begin();
+			difference_type count = ft::distance(first, last);
+			if (!count)
+				return;
+		if (count + _size_container > _capacity)
+		{
+		size_t new_capacity = 0;
+			if (_capacity == 0)
+				new_capacity = 1;
+			else
+				new_capacity = _size_container * 2;
+			if (new_capacity < _size_container + count)
+				new_capacity = _size_container + count;
+			reserve(new_capacity); // (otherwhise iterator `pos` is invalidated)
 		}
+			// (otherwhise iterator `pos` is invalidated)
 
+			std::allocator<T> alloc;
+
+			for (ptrdiff_t i = _size_container - 1; i >= (ptrdiff_t)index; i--)
+			{
+				// move elements count times to the right
+				alloc.construct(&_ptr[i + count], _ptr[i]); // copy constructor
+				alloc.destroy(&_ptr[i]);					// call destructor
+			}
+
+			for (InputIterator ite = first; ite != last; ++ite)
+				alloc.construct(&_ptr[index++], *ite); // copy constructor
+
+			_size_container += count;
+		}
 		iterator erase(iterator pos)
 		{
 			return (erase(pos, pos + 1));
@@ -377,12 +432,8 @@ namespace ft
 
 		void clear()
 		{
-		if (_capacity > 0)
-			while (_size_container)
-				{
-					_alloc.destroy(_ptr + --_size_container);
-				}
-			_size_container = 0;
+			while (_size_container > 0)
+				pop_back();
 		};
 
 		// Allocator
