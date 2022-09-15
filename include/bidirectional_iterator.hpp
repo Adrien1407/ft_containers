@@ -10,19 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include "iterator.hpp"
-#include "ft_enable_if.hpp"
-#include "is_integral.hpp"
-#include "reverse_iterator.hpp"
-#include "random_access_iterator.hpp"
 #include "RBtree.hpp"
+#include "ft_enable_if.hpp"
 
 namespace ft
 {
-
     template <typename T, class N>
-    class bidirectionnal_iterator : public iterator<ft::bidirectional_iterator_tag, T>
+    class bidirectional_iterator : public iterator<ft::bidirectional_iterator_tag, T>
     {
     public:
         typedef T value_type;
@@ -30,7 +25,7 @@ namespace ft
         typedef T *pointer;
         typedef const T &const_reference;
         typedef const T *const_pointer;
-        typedef typename bidirectional_iterator_tag iterator_category;
+        typedef typename ft::bidirectional_iterator_tag iterator_category;
         typedef ptrdiff_t difference_type;
         typedef N node_type;
         typedef N *node_ptr;
@@ -42,8 +37,8 @@ namespace ft
 
     public:
         // constructors
-        bidirectional_iterator() : _ptr(ft_nullptr_t), _root(ft_nullptr_t), _nill(ft_nullptr_t){};
-        bidirectional_iterator(const bidirectional_iterator &cpy) : _ptr(cpy._ptr), _root(cpy._root), _nill(cpy._nill){};
+        bidirectional_iterator() : _ptr(ft_nullptr_t), _root(ft_nullptr_t), _null(ft_nullptr_t){};
+        bidirectional_iterator(const bidirectional_iterator &cpy) : _ptr(cpy._ptr), _root(cpy._root), _null(cpy._null){};
         // destructors
         virtual ~bidirectional_iterator(){};
 
@@ -100,57 +95,77 @@ namespace ft
             this->operator--();
             return (old);
         }
-        bool operator==(const bidirectional_iterator &lhs)
-        {
-            return _ptr == lhs._ptr;
-        }
-        bool operator!=(const bidirectional_iterator &lhs)
-        {
-            return _ptr != lhs._ptr;
-        }
+
         // comparision
-        template <class Iter1, class Iter2>
-        friend bool operator==(ft::bidirectional_iterator<Iter1, Node<Iter1>> const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2>> const &rhs);
+        bool operator==(const bidirectional_iterator &lhs) { return _ptr == lhs._ptr; }
+        bool operator!=(const bidirectional_iterator &lhs) { return _ptr != lhs._ptr; }
 
         template <class Iter1, class Iter2>
-        friend bool operator!=(ft::bidirectional_iterator<Iter1, Node<Iter1>> const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2>> const &rhs);
+        friend bool operator==(ft::bidirectional_iterator<Iter1, Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2> > const &rhs);
+
+        template <class Iter1, class Iter2>
+        friend bool operator!=(ft::bidirectional_iterator<Iter1, Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2> > const &rhs);
 
     private:
-        node_ptr next(node_ptr node)
+        node_ptr successor(node_ptr x)
         {
-            if (node->right != _null)
-                return (min(node->right));
-            node_ptr n = node->parent;
-            while (n != NULL &&node = n->right)
+            if (x->right != _null)
             {
-                node = n;
-                n = n->parent;
+                return min(x->right);
             }
-            if (y == NULL)
-                return _null;
-            return (n);
+
+            node_ptr y = x->parent;
+            while (y != _null && x == y->right)
+            {
+                x = y;
+                y = y->parent;
+            }
+            return y;
         }
-        node_ptr previous(node_ptr node)
+
+        node_ptr predecessor(node_ptr x)
         {
-            if (node->left != _null)
-                return (max(node->left));
-            node_ptr n = node->parent;
-            while (n != NULL && node == n->left)
+            if (x->left != _null)
             {
-                node = n;
-                n = n->parent;
+                return max(x->left);
             }
-            return (n);
+
+            node_ptr y = x->parent;
+            while (y != _null && x == y->left)
+            {
+                x = y;
+                y = y->parent;
+            }
+
+            return y;
+        }
+        node_ptr minimum(node_ptr node)
+        {
+            while (node->left != _null)
+            {
+                node = node->left;
+            }
+            return node;
+        }
+
+        node_ptr maximum(node_ptr node)
+        {
+            while (node->right != _null)
+            {
+                node = node->right;
+            }
+            return node;
         }
     };
     template <class Iter1, class Iter2>
-    bool operator==(ft::bidirectionnal_iterator<Iter1, Node<Iter1>> const &lhs, ft::bidirectionnal_iterator<Iter2, Node<Iter2>> const &rhs)
+    bool operator==(ft::bidirectional_iterator<Iter1, ft::Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, ft::Node<Iter2> > const &rhs)
     {
         return (lhs._ptr == rhs._ptr);
-    };
+    }
+
     template <class Iter1, class Iter2>
-    bool operator!=(ft::bidirectionnal_iterator<Iter1, Node<Iter1>> const &lhs, ft::bidirectionnal_iterator<Iter2, Node<Iter2>> const &rhs)
+    bool operator!=(ft::bidirectional_iterator<Iter1, ft::Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, ft::Node<Iter2> > const &rhs)
     {
         return (lhs._ptr != rhs._ptr);
-    };
+    }
 }
