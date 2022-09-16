@@ -1,25 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/06 14:56:08 by adlancel          #+#    #+#             */
-/*   Updated: 2022/09/06 14:56:13 by adlancel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef RBTREE_HPP
+#define RBTREE_HPP
 
 #include <iostream>
 #include <memory>
 #include "iterator.hpp"
 #include "bidirectional_iterator.hpp"
-#include "ft_enable_if.hpp"
-#include "is_integral.hpp"
 #include "reverse_iterator.hpp"
 #include "random_access_iterator.hpp"
+#include "utils.hpp"
 
 // Rules That Every Red-Black Tree Follows:
 // 1 - Every node has a color either red or black.
@@ -30,23 +18,6 @@
 
 namespace ft
 {
-    enum Color
-    {
-        BLACK,
-        RED
-    };
-    template <typename T>
-    struct Node
-    {
-        T data;
-        Color color;
-        Node *left;
-        Node *right;
-        Node *parent;
-
-        Node(T data, Node *parent, Node *left, Node *right, Color color) : data(data), parent(parent), left(left), right(right), color(color) {}
-    };
-
     template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
     class RBtree
     {
@@ -83,7 +54,7 @@ namespace ft
         void clear(node_ptr const &node)
         {
             if (node == _TNULL)
-                return; // stop of recursive
+                return;
             clear(node->left);
             clear(node->right);
 
@@ -97,99 +68,116 @@ namespace ft
             node->parent = parent;
             node->left = ft_nullptr_t;
             node->right = ft_nullptr_t;
-            node->color = 0;
+            node->color = BLACK;
         }
-        void insertFix(node_ptr k)
+        node_ptr alloc_node(const value_type &data) {
+            node_ptr node = _alloc.allocate(1);
+
+            node->data = data;
+            node->_color = RED;
+            node->left = _TNULL;
+            node->right = _TNULL;
+            node->parent = _TNULL;
+            ++_size;
+            return node;
+        }
+        void insertFix(node_ptr node)
         {
-            node_ptr u;
-            while (k->parent->color == 1)
+            node_ptr tmp;
+            while (node->parent->color == RED)
             {
-                if (k->parent == k->parent->parent->right)
+                if (node->parent == node->parent->parent->right)
                 {
-                    u = k->parent->parent->left;
-                    if (u->color == 1)
+                    tmp = node->parent->parent->left;
+                    if (tmp->color == RED)
                     {
-                        u->color = 0;
-                        k->parent->color = 0;
-                        k->parent->parent->color = 1;
-                        k = k->parent->parent;
+                        tmp->color = BLACK;
+                        node->parent->color = BLACK;
+                        node->parent->parent->color = RED;
+                        node = node->parent->parent;
                     }
                     else
                     {
-                        if (k == k->parent->left)
+                        if (node == node->parent->left)
                         {
-                            k = k->parent;
-                            rightRotate(k);
+                            node = node->parent;
+                            rightRotate(node);
                         }
-                        k->parent->color = 0;
-                        k->parent->parent->color = 1;
-                        leftRotate(k->parent->parent);
+                        node->parent->color = BLACK;
+                        node->parent->parent->color = RED;
+                        leftRotate(node->parent->parent);
                     }
                 }
                 else
                 {
-                    u = k->parent->parent->right;
+                    tmp = node->parent->parent->right;
 
-                    if (u->color == 1)
+                    if (tmp->color == RED)
                     {
-                        u->color = 0;
-                        k->parent->color = 0;
-                        k->parent->parent->color = 1;
-                        k = k->parent->parent;
+                        tmp->color = BLACK;
+                        node->parent->color = BLACK;
+                        node->parent->parent->color = RED;
+                        node = node->parent->parent;
                     }
                     else
                     {
-                        if (k == k->parent->right)
+                        if (node == node->parent->right)
                         {
-                            k = k->parent;
-                            leftRotate(k);
+                            node = node->parent;
+                            leftRotate(node);
                         }
-                        k->parent->color = 0;
-                        k->parent->parent->color = 1;
-                        rightRotate(k->parent->parent);
+                        node->parent->color = BLACK;
+                        node->parent->parent->color = RED;
+                        rightRotate(node->parent->parent);
                     }
                 }
-                if (k == _root)
+                if (node == _root)
                 {
                     break;
                 }
             }
-            _root->color = 0;
+            _root->color = BLACK;
+        }
+        void delete_node(node_ptr node)
+        {
+            _alloc.destroy(node);
+            _alloc.deallocate(node, RED);
+            _size--;
         }
         void deleteFix(node_ptr x)
         {
             node_ptr s;
-            while (x != _root && x->color == 0)
+            while (x != _root && x->color == BLACK)
             {
                 if (x == x->parent->left)
                 {
                     s = x->parent->right;
-                    if (s->color == 1)
+                    if (s->color == RED)
                     {
-                        s->color = 0;
-                        x->parent->color = 1;
+                        s->color = BLACK;
+                        x->parent->color = RED;
                         leftRotate(x->parent);
                         s = x->parent->right;
                     }
 
-                    if (s->left->color == 0 && s->right->color == 0)
+                    if (s->left->color == BLACK && s->right->color == BLACK)
                     {
-                        s->color = 1;
+                        s->color = RED;
                         x = x->parent;
                     }
                     else
                     {
-                        if (s->right->color == 0)
+                        if (s->right->color == BLACK)
                         {
-                            s->left->color = 0;
-                            s->color = 1;
+                            s->left->color = BLACK;
+                            s->color = RED;
                             rightRotate(s);
                             s = x->parent->right;
                         }
 
                         s->color = x->parent->color;
-                        x->parent->color = 0;
-                        s->right->color = 0;
+                        x->parent->color = BLACK;
+                        s->right->color = BLACK;
                         leftRotate(x->parent);
                         x = _root;
                     }
@@ -197,38 +185,38 @@ namespace ft
                 else
                 {
                     s = x->parent->left;
-                    if (s->color == 1)
+                    if (s->color == RED)
                     {
-                        s->color = 0;
-                        x->parent->color = 1;
+                        s->color = BLACK;
+                        x->parent->color = RED;
                         rightRotate(x->parent);
                         s = x->parent->left;
                     }
 
-                    if (s->right->color == 0 && s->right->color == 0)
+                    if (s->right->color == RED && s->right->color == RED)
                     {
-                        s->color = 1;
+                        s->color = BLACK;
                         x = x->parent;
                     }
                     else
                     {
-                        if (s->left->color == 0)
+                        if (s->left->color == RED)
                         {
-                            s->right->color = 0;
-                            s->color = 1;
+                            s->right->color = RED;
+                            s->color = BLACK;
                             leftRotate(s);
                             s = x->parent->left;
                         }
 
                         s->color = x->parent->color;
-                        x->parent->color = 0;
-                        s->left->color = 0;
+                        x->parent->color = RED;
+                        s->left->color = RED;
                         rightRotate(x->parent);
                         x = _root;
                     }
                 }
             }
-            x->color = 0;
+            x->color = BLACK;
         }
         void leftRotate(node_ptr x)
         {
@@ -281,12 +269,7 @@ namespace ft
         void insert(const value_type &value)
         {
             node_ptr node;
-            node->parent = ft_nullptr_t;
-            node->data = value;
-            node->left = _TNULL;
-            node->right = _TNULL;
-            node->color = 1;
-
+            node = _alloc_node(value);
             node_ptr y = ft_nullptr_t;
             node_ptr x = this->_root;
 
@@ -319,7 +302,7 @@ namespace ft
 
             if (node->parent == ft_nullptr_t)
             {
-                node->color = 0;
+                node->color = RED;
                 return;
             }
 
@@ -327,7 +310,6 @@ namespace ft
             {
                 return;
             }
-
             insertFix(node);
         }
     };

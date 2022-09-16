@@ -15,8 +15,7 @@
 
 #include <iostream>
 #include "iterator.hpp"
-#include "ft_enable_if.hpp"
-#include "is_integral.hpp"
+#include "utils.hpp"
 #include "reverse_iterator.hpp"
 #include "random_access_iterator.hpp"
 

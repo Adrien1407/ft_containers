@@ -15,12 +15,9 @@
 
 #include <iostream>
 #include "iterator.hpp"
-#include "ft_enable_if.hpp"
-#include "ft_pair.hpp"
-#include "is_integral.hpp"
 #include "reverse_iterator.hpp"
 #include "random_access_iterator.hpp"
-#include "bidirectional_iterator.hpp"
+#include "utils.hpp"
 
 namespace ft
 {

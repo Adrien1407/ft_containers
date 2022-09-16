@@ -12,7 +12,7 @@
 
 #include "iterator.hpp"
 #include "RBtree.hpp"
-#include "ft_enable_if.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -97,15 +97,8 @@ namespace ft
         }
 
         // comparision
-        bool operator==(const bidirectional_iterator &lhs) { return _ptr == lhs._ptr; }
-        bool operator!=(const bidirectional_iterator &lhs) { return _ptr != lhs._ptr; }
-
-        template <class Iter1, class Iter2>
-        friend bool operator==(ft::bidirectional_iterator<Iter1, Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2> > const &rhs);
-
-        template <class Iter1, class Iter2>
-        friend bool operator!=(ft::bidirectional_iterator<Iter1, Node<Iter1> > const &lhs, ft::bidirectional_iterator<Iter2, Node<Iter2> > const &rhs);
-
+        bool operator==(const bidirectional_iterator &lhs) const { return _ptr == lhs._ptr; }
+        bool operator!=(const bidirectional_iterator &lhs) const { return _ptr != lhs._ptr; }
     private:
         node_ptr successor(node_ptr x)
         {
