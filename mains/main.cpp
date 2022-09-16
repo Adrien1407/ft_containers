@@ -3,5 +3,5 @@
 
 int main()
 {
-
+ft::map<int, int> mp;
 };

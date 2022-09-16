@@ -9,7 +9,7 @@
 #include "random_access_iterator.hpp"
 #include "utils.hpp"
 
-// Rules That Every Red-Black Tree Follows:
+// 0 - Rules That Every Red-Black Tree Follows:
 // 1 - Every node has a color either red or black.
 // 2 - The _root of the tree is always black.
 // 3 - There are no two adjacent red nodes (A red node cannot have a red parent or red child).
@@ -313,6 +313,5 @@ namespace ft
             insertFix(node);
         }
     };
-
 }
 #endif
