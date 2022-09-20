@@ -18,7 +18,7 @@
 
 namespace ft
 {
-    template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T>>>
+    template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
     class RBtree
     {
     public:

@@ -27,13 +27,14 @@ namespace ft
     struct Node
     {
         T data;
-        Color color;
+        Node *parent;
         Node *left;
         Node *right;
-        Node *parent;
+        Color color;
+
 
         Node(T data, Node *parent, Node *left, Node *right, Color color) : data(data), parent(parent), left(left), right(right), color(color) {}
-        ~Node() {}
+        ~Node() {};
     };
     template <class Input, class Output>
     struct selectFirst : public std::unary_function<Input, Output>
