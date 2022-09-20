@@ -15,8 +15,7 @@
 
 #include <iostream>
 #include "iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "random_access_iterator.hpp"
+#include "rbtree.hpp"
 #include "utils.hpp"
 
 namespace ft
@@ -29,7 +28,7 @@ namespace ft
 			return (x.first);
 		}
 	};
-	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T>>>
 	class map
 	{
 	public:
@@ -74,19 +73,18 @@ namespace ft
 
 	protected:
 		allocator_type _alloc;
-		key_compare _comp;
+		key_compare _key_compare;
 		tree_type _tree;
 		value_compare _value_compare;
 
 	public:
-		map();
-		explicit map(const Compare &comp = key_compare(), const Allocator &alloc = Allocator()) : _alloc(alloc), _key_compare(comp){};
+		explicit map(const Compare &comp = key_compare(), const Alloc &alloc = Alloc()) : _alloc(alloc), _key_compare(comp){};
 		template <class InputIt>
-		map(InputIt first, InputIt last, const Compare &comp = Compare(), const Allocator &alloc = Allocator()) : _alloc(alloc), _key_compare(comp), _value_compare(value_compare()), _tree()
+		map(InputIt first, InputIt last, const Compare &comp = Compare(), const Alloc &alloc = Alloc()) : _alloc(alloc), _key_compare(comp), _value_compare(value_compare()), _tree()
 		{
 			insert(first, last);
 		}
-		map(const map &other) : _alloc(other._alloc), _key_compare(other._key_compare),
+		map(const map &other) : _alloc(other._alloc), key_compare(other._key_compare),
 								_value_compare(other._value_compare)
 		{
 			insert(other.begin(), other.end());
@@ -95,12 +93,12 @@ namespace ft
 
 		map &operator=(const map &other)
 		{
-			if (this != &cpy)
+			if (this != &other)
 			{
 				clear();
-				_alloc = cpy._alloc;
-				_comp = cpy._comp;
-				this->insert(cpy.begin(), cpy.end());
+				_alloc = other._alloc;
+				_key_compare = other._key_compare;
+				this->insert(other.begin(), other.end());
 			}
 			return (*this);
 		};
@@ -112,7 +110,7 @@ namespace ft
 		{
 			return iterator(_tree.get_root(), _tree._min(), _tree.get_end());
 		};
-		const_iterator begin() const;
+		const_iterator begin() const
 		{
 			return const_iterator(_tree.get_root(), _tree._min(), _tree.get_end());
 		};
@@ -191,10 +189,10 @@ namespace ft
 		};
 		void swap(map &other)
 		{
-			std::swap(_alloc, x._alloc);
-			std::swap(_key_compare, x._key_compare);
-			std::swap(_value_compare, x._value_compare);
-			_tree.swap(x._tree);
+			std::swap(_alloc, other._alloc);
+			std::swap(_key_compare, other._key_compare);
+			std::swap(_value_compare, other._value_compare);
+			_tree.swap(other._tree);
 		};
 		size_type count(const Key &key) const
 		{
@@ -203,27 +201,95 @@ namespace ft
 
 			while (beg != end)
 			{
-				if ((*(beg++)).first == k)
+				if ((*(beg++)).first == key)
 					return (1);
 			}
 			return (0);
 		};
 		iterator find(const Key &key)
-				{
-			node_ptr tmp = _tree._search_node(k);
+		{
+			node_ptr tmp = _tree._search_node(key);
 			if (tmp == _tree.get_end())
 				return (end());
 			return iterator(tmp, _tree.get_root(), _tree.get_end());
 		};
-		
-		const_iterator find(const Key &key) const;
-		ft::pair<iterator, iterator> equal_range(const Key &key);
-		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const;
-		iterator lower_bound(const Key &key);
-		const_iterator lower_bound(const Key &key) const;
-		iterator upper_bound(const Key &key);
-		const_iterator upper_bound(const Key &key) const;
-		key_compare key_comp() const;
+		iterator find(const Key &key) const
+		{
+			node_ptr tmp = _tree._search_node(key);
+			if (tmp == _tree.get_end())
+				return (end());
+			return const_iterator(tmp, _tree.get_root(), _tree.get_end());
+		};
+
+		ft::pair<iterator, iterator> equal_range(const Key &key)
+		{
+			return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
+		}
+		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const
+		{
+			return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
+		}
+		iterator lower_bound(const Key &key)
+		{
+			iterator beg = this->begin();
+			iterator end = this->end();
+
+			while (beg != end)
+			{
+				if (_key_compare((*beg).first, k) == false)
+					break;
+				beg++;
+			}
+			return (beg);
+		};
+		const_iterator lower_bound(const Key &key) const
+		{
+			iterator beg = this->begin();
+			iterator end = this->end();
+
+			while (beg != end)
+			{
+				if (_key_compare((*beg).first, k) == false)
+					break;
+				beg++;
+			}
+			return (beg);
+		};
+		iterator upper_bound(const Key &key)
+		{
+			iterator beg = this->begin();
+			iterator end = this->end();
+
+			while (beg != end)
+			{
+				if (_key_compare((*beg).first, k))
+					break;
+				beg++;
+			}
+			return (beg);
+		}
+		const_iterator upper_bound(const Key &key) const
+		{
+			iterator beg = this->begin();
+			iterator end = this->end();
+
+			while (beg != end)
+			{
+				if (_key_compare((*beg).first, k))
+					break;
+				beg++;
+			}
+			return (beg);
+		};
+		key_compare key_comp() const
+		{
+			return this->_key_compare;
+		}
+
+		value_compare value_comp() const 
+		{
+			return this->_value_compare;
+		}
 	};
 }
 #endif

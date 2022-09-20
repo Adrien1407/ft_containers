@@ -18,7 +18,7 @@
 
 namespace ft
 {
-    template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
+    template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T>>>
     class RBtree
     {
     public:
@@ -51,6 +51,16 @@ namespace ft
             _alloc.destroy(_TNULL);
             _alloc.deallocate(_TNULL, 1);
         }
+
+        node_ptr get_root() const
+        {
+            return this->_root;
+        }
+
+        node_ptr get_end() const
+        {
+            return this->_end;
+        }
         void clear(node_ptr const &node)
         {
             if (node == _TNULL)
@@ -70,7 +80,8 @@ namespace ft
             node->right = ft_nullptr_t;
             node->color = BLACK;
         }
-        node_ptr alloc_node(const value_type &data) {
+        node_ptr alloc_node(const value_type &data)
+        {
             node_ptr node = _alloc.allocate(1);
 
             node->data = data;
