@@ -46,9 +46,7 @@ namespace ft
 
 	public:
 		// Constructors
-		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0){
-
-																												};
+		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _ptr(0), _capacity(0), _size_container(0){};
 
 		explicit vector(size_type n, const T &val = T(),
 						const allocator_type &alloc = allocator_type()) : _alloc(alloc), _capacity(n), _size_container(n)

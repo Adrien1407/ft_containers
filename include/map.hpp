@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include "iterator.hpp"
-#include "rbtree.hpp"
+#include "RBtree.hpp"
 #include "utils.hpp"
 
 namespace ft
@@ -236,7 +236,7 @@ namespace ft
 
 			while (beg != end)
 			{
-				if (_key_compare((*beg).first, k) == false)
+				if (_key_compare((*beg).first, key) == false)
 					break;
 				beg++;
 			}
@@ -249,7 +249,7 @@ namespace ft
 
 			while (beg != end)
 			{
-				if (_key_compare((*beg).first, k) == false)
+				if (_key_compare((*beg).first, key) == false)
 					break;
 				beg++;
 			}
@@ -262,7 +262,7 @@ namespace ft
 
 			while (beg != end)
 			{
-				if (_key_compare((*beg).first, k))
+				if (_key_compare((*beg).first, key))
 					break;
 				beg++;
 			}
@@ -275,7 +275,7 @@ namespace ft
 
 			while (beg != end)
 			{
-				if (_key_compare((*beg).first, k))
+				if (_key_compare((*beg).first, key))
 					break;
 				beg++;
 			}
