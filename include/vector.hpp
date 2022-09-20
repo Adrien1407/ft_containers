@@ -289,37 +289,6 @@ namespace ft
 			insert(position, 1, val);
 			return begin() + index;
 		}
-
-		// 	void insert(iterator position, size_t n, const value_type &val)
-		// 	{
-		// 		std::cout << "insert 2\n";
-
-		// 		difference_type const idx = position - this->begin();
-		// 		difference_type const old_end_idx = this->end() - this->begin();
-		// 		iterator old_end, end;
-		// 		if (n + _size_container > _capacity)
-		// 		{
-		// 			std::cout << "n + size > _capacity\n";
-		// 			this->resize(_size_container + n);
-		// 		}
-		// 		else
-		// 		{
-		// 			std::cout << "n + size NOT > _capacity\n";
-		// 			std::cout << "size = " << _size_container << std::endl;
-		// 			_size_container += n;
-		// 			std::cout << "size = " << _size_container << std::endl;
-		// 			std::cout << "old end_idx " << old_end_idx << std::endl;
-		// 		}
-		// 		end = this->end();
-		// 		position = this->begin() + idx;
-		// 		old_end = this->begin() + old_end_idx;
-		// 			std::cout << "old end " << (*old_end) << std::endl;
-
-		// //		while (old_end != position)
-		// 			//*--end = *--old_end;
-		// 		while (n-- > 0)
-		// 			*position++ = val;
-		// 	}
 		void insert(iterator pos, size_type count, const value_type &value)
 		{
 

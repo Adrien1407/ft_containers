@@ -21,6 +21,14 @@
 
 namespace ft
 {
+	template <class T, class Key>
+	struct get_key : public std::unary_function<T, Key>
+	{
+		const Key &operator()(const T &x) const
+		{
+			return (x.first);
+		}
+	};
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
@@ -72,46 +80,150 @@ namespace ft
 
 	public:
 		map();
-		explicit map(const Compare &comp,
-					 const Allocator &alloc = Allocator());
+		explicit map(const Compare &comp = key_compare(), const Allocator &alloc = Allocator()) : _alloc(alloc), _key_compare(comp){};
 		template <class InputIt>
-		map(InputIt first, InputIt last,
-			const Compare &comp = Compare(),
-			const Allocator &alloc = Allocator());
-		~map();
-		map &operator=(const map &other);
+		map(InputIt first, InputIt last, const Compare &comp = Compare(), const Allocator &alloc = Allocator()) : _alloc(alloc), _key_compare(comp), _value_compare(value_compare()), _tree()
+		{
+			insert(first, last);
+		}
+		map(const map &other) : _alloc(other._alloc), _key_compare(other._key_compare),
+								_value_compare(other._value_compare)
+		{
+			insert(other.begin(), other.end());
+		}
+		virtual ~map(){};
 
-		iterator begin();
+		map &operator=(const map &other)
+		{
+			if (this != &cpy)
+			{
+				clear();
+				_alloc = cpy._alloc;
+				_comp = cpy._comp;
+				this->insert(cpy.begin(), cpy.end());
+			}
+			return (*this);
+		};
+		allocator_type get_allocator() const
+		{
+			return _alloc;
+		}
+		iterator begin()
+		{
+			return iterator(_tree.get_root(), _tree._min(), _tree.get_end());
+		};
 		const_iterator begin() const;
-		iterator end();
-		const_iterator end() const;
-		reverse_iterator rbegin();
-		const_reverse_iterator rbegin() const;
-		reverse_iterator rend();
-		const_reverse_iterator rend() const;
-		bool empty() const;
-		size_type size() const;
-		size_type max_size() const;
-		std::pair<iterator, bool> insert(const value_type &value);
-		iterator insert(iterator hint, const value_type &value);
+		{
+			return const_iterator(_tree.get_root(), _tree._min(), _tree.get_end());
+		};
+
+		iterator end()
+		{
+			return iterator(_tree.get_root(), _tree.get_end(), _tree.get_end());
+		};
+		const_iterator end() const
+		{
+			return (const_iterator(_tree.get_root(), _tree.get_end(), _tree.get_end()));
+		};
+		reverse_iterator rbegin()
+		{
+			return (reverse_iterator(end()));
+		};
+		const_reverse_iterator rbegin() const
+		{
+			return (const_reverse_iterator(end()));
+		};
+		reverse_iterator rend()
+		{
+			return (reverse_iterator(end()));
+		};
+		const_reverse_iterator rend() const
+		{
+			return (const_reverse_iterator(end()));
+		};
+		bool empty() const
+		{
+			return (_tree.size() == 0);
+		};
+		size_type size() const
+		{
+			return (_tree.size());
+		};
+		size_type max_size() const
+		{
+			return (_alloc.max_size());
+		};
+		void clear()
+		{
+			_tree.clear();
+		}
+		ft::pair<iterator, bool> insert(const value_type &value)
+		{
+			return (_tree.insert(value));
+		}
+
+		iterator insert(iterator hint, const value_type &value)
+		{
+			(void)hint;
+			return insert(value).first;
+		};
 		template <class InputIt>
-		void insert(InputIt first, InputIt last);
-		iterator erase(iterator pos);
-		iterator erase(iterator first, iterator last);
-		size_type erase(const Key &key);
-		void swap(map &other);
-		size_type count(const Key &key) const;
-		iterator find(const Key &key);
+		void insert(InputIt first, InputIt last)
+		{
+			for (; first != last; ++first)
+				_tree.insert_node(*first);
+			return;
+		};
+		iterator erase(iterator pos)
+		{
+			this->erase((*pos).first);
+		};
+		iterator erase(iterator first, iterator last)
+		{
+			while (first != last)
+				this->erase((*(first++)).first);
+		};
+		size_type erase(const Key &key)
+		{
+			if (_tree->erase(key))
+				return 1;
+			return 0;
+		};
+		void swap(map &other)
+		{
+			std::swap(_alloc, x._alloc);
+			std::swap(_key_compare, x._key_compare);
+			std::swap(_value_compare, x._value_compare);
+			_tree.swap(x._tree);
+		};
+		size_type count(const Key &key) const
+		{
+			const_iterator beg = this->begin();
+			const_iterator end = this->end();
+
+			while (beg != end)
+			{
+				if ((*(beg++)).first == k)
+					return (1);
+			}
+			return (0);
+		};
+		iterator find(const Key &key)
+				{
+			node_ptr tmp = _tree._search_node(k);
+			if (tmp == _tree.get_end())
+				return (end());
+			return iterator(tmp, _tree.get_root(), _tree.get_end());
+		};
+		
 		const_iterator find(const Key &key) const;
-		std::pair<iterator, iterator> equal_range(const Key &key);
-		std::pair<const_iterator, const_iterator> equal_range(const Key &key) const;
+		ft::pair<iterator, iterator> equal_range(const Key &key);
+		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const;
 		iterator lower_bound(const Key &key);
 		const_iterator lower_bound(const Key &key) const;
 		iterator upper_bound(const Key &key);
 		const_iterator upper_bound(const Key &key) const;
 		key_compare key_comp() const;
-
-		void clear();
 	};
 }
 #endif
