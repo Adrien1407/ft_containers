@@ -52,6 +52,33 @@ namespace ft
             _alloc.deallocate(_TNULL, 1);
         }
 
+        node_ptr min(void) const
+        {
+            return min(_root);
+        }
+
+        node_ptr min(node_ptr node) const
+        {
+            if (node == _TNULL)
+                return _root;
+            while (node->left != _TNULL)
+                node = node->left;
+            return node;
+        }
+
+        node_ptr max(void) const
+        {
+            return max(_root);
+        }
+
+        node_ptr max(node_ptr node) const
+        {
+            if (node == _TNULL)
+                return _root;
+            while (node->right != _TNULL)
+                node = node->right;
+            return node;
+        }
         node_ptr get_root() const
         {
             return this->_root;
@@ -71,26 +98,6 @@ namespace ft
             _alloc.destroy(node);
             _alloc.deallocate(node, 1);
             _size--;
-        }
-        void initializeNode(node_ptr node, node_ptr parent)
-        {
-            node->data = 0;
-            node->parent = parent;
-            node->left = ft_nullptr_t;
-            node->right = ft_nullptr_t;
-            node->color = BLACK;
-        }
-        node_ptr alloc_node(const value_type &d)
-        {
-            node_ptr node = _alloc.allocate(1);
-
-            node->data = d;
-            node->color = RED;
-            node->left = _TNULL;
-            node->right = _TNULL;
-            node->parent = _TNULL;
-            ++_size;
-            return node;
         }
         void insertFix(node_ptr node)
         {
@@ -280,7 +287,8 @@ namespace ft
         node_ptr insert(const value_type &value)
         {
             node_ptr node;
-            node = alloc_node(value);
+            node = _alloc.allocate(1);
+            _alloc.construct(node, node_type(value, ft_nullptr_t, _TNULL, _TNULL, RED));
             node_ptr y = ft_nullptr_t;
             node_ptr x = this->_root;
 

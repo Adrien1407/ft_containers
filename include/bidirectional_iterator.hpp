@@ -53,7 +53,10 @@ namespace ft
             }
             return (*this);
         }
-
+        operator bidirectional_iterator<value_type const, node_type const>() const
+        {
+            return bidirectional_iterator<value_type const, node_type const>(_root, _ptr, _null);
+        }
         // access
         reference operator*()
         {
@@ -75,25 +78,25 @@ namespace ft
         bidirectional_iterator &operator++(void)
         {
             if (_ptr != _null)
-                _ptr = next(_ptr);
+                _ptr = successor(_ptr);
             return (*this);
         }
-        bidirectional_iterator &operator++(int)
+        bidirectional_iterator operator++(int)
         {
             bidirectional_iterator old(*this);
-            this->operator++();
+            operator++();
             return (old);
         }
         bidirectional_iterator &operator--(void)
         {
             if (_ptr != _null)
-                _ptr = previous(_ptr);
+                _ptr = predecessor(_ptr);
             return (*this);
         }
-        bidirectional_iterator &operator--(int)
+        bidirectional_iterator operator--(int)
         {
             bidirectional_iterator old(*this);
-            this->operator--();
+            operator--();
             return (old);
         }
 
@@ -101,7 +104,7 @@ namespace ft
         bool operator==(const bidirectional_iterator &lhs) const { return _ptr == lhs._ptr; }
         bool operator!=(const bidirectional_iterator &lhs) const { return _ptr != lhs._ptr; }
 
-    private:
+    protected:
         node_ptr successor(node_ptr x)
         {
             if (x->right != _null)
@@ -134,7 +137,7 @@ namespace ft
 
             return y;
         }
-        node_ptr minimum(node_ptr node)
+        node_ptr min(node_ptr node)
         {
             while (node->left != _null)
             {
@@ -143,7 +146,7 @@ namespace ft
             return node;
         }
 
-        node_ptr maximum(node_ptr node)
+        node_ptr max(node_ptr node)
         {
             while (node->right != _null)
             {

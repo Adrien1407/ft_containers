@@ -94,17 +94,30 @@ namespace ft
 			}
 			return (*this);
 		};
+		mapped_type &operator[](const key_type &k)
+		{
+			node_ptr val = _tree.search(k);
+
+			if (val != _tree.get_end())
+				return (val->data.second);
+			else
+			{
+				_tree.insert(value_type(k, mapped_type())); // insert returns a pair an first element of pair is an it
+				val = _tree.search(k);
+				return (val->data.second);
+			}
+		}
 		allocator_type get_allocator() const
 		{
 			return _alloc;
 		}
 		iterator begin()
 		{
-			return iterator(_tree.get_root(), _tree._min(), _tree.get_end());
+			return iterator(_tree.get_root(), _tree.min(), _tree.get_end());
 		};
 		const_iterator begin() const
 		{
-			return const_iterator(_tree.get_root(), _tree._min(), _tree.get_end());
+			return const_iterator(_tree.get_root(), _tree.min(), _tree.get_end());
 		};
 
 		iterator end()
@@ -145,7 +158,7 @@ namespace ft
 		};
 		void clear()
 		{
-			_tree.clear();
+			_tree.clear_h(_tree.get_root());
 		}
 		ft::pair<iterator, bool> insert(const value_type &value)
 		{
