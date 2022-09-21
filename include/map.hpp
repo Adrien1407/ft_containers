@@ -146,11 +146,11 @@ namespace ft
 		};
 		bool empty() const
 		{
-			return (_tree.size() == 0);
+			return (_tree.get_size() == 0);
 		};
 		size_type size() const
 		{
-			return (_tree.size());
+			return (_tree.get_size());
 		};
 		size_type max_size() const
 		{
@@ -158,7 +158,7 @@ namespace ft
 		};
 		void clear()
 		{
-			_tree.clear_h(_tree.get_root());
+			_tree.clear(_tree.get_root());
 		}
 		ft::pair<iterator, bool> insert(const value_type &value)
 		{
@@ -187,18 +187,18 @@ namespace ft
 				_tree.insert_node(*first);
 			return;
 		};
-		iterator erase(iterator pos)
+		void erase(iterator pos)
 		{
 			this->erase((*pos).first);
 		};
-		iterator erase(iterator first, iterator last)
+		void erase(iterator first, iterator last)
 		{
 			while (first != last)
 				this->erase((*(first++)).first);
 		};
 		size_type erase(const Key &key)
 		{
-			if (_tree->erase(key))
+			if (_tree.erase(key))
 				return 1;
 			return 0;
 		};

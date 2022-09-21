@@ -51,7 +51,15 @@ namespace ft
             _alloc.destroy(_TNULL);
             _alloc.deallocate(_TNULL, 1);
         }
+        size_type get_size() const
+        {
+            return (this->_size);
+        }
 
+        size_type max_size() const
+        {
+            return (_alloc.max_size());
+        }
         node_ptr min(void) const
         {
             return min(_root);
@@ -79,6 +87,7 @@ namespace ft
                 node = node->right;
             return node;
         }
+
         node_ptr get_root() const
         {
             return this->_root;
