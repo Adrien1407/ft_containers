@@ -18,7 +18,7 @@
 
 namespace ft
 {
-    template <class Key, class T, class get_key_from_val, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
+    template <class Key, class T, class selectFirst, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
     class RBtree
     {
     public:
@@ -59,7 +59,7 @@ namespace ft
 
         node_ptr get_end() const
         {
-            return this->_end;
+            return this->_TNULL;
         }
         void clear(node_ptr const &node)
         {
@@ -80,12 +80,12 @@ namespace ft
             node->right = ft_nullptr_t;
             node->color = BLACK;
         }
-        node_ptr alloc_node(const value_type &data)
+        node_ptr alloc_node(const value_type &d)
         {
             node_ptr node = _alloc.allocate(1);
 
-            node->data = data;
-            node->_color = RED;
+            node->data = d;
+            node->color = RED;
             node->left = _TNULL;
             node->right = _TNULL;
             node->parent = _TNULL;
@@ -277,52 +277,67 @@ namespace ft
             y->right = x;
             x->parent = y;
         }
-        void insert(const value_type &value)
+        node_ptr insert(const value_type &value)
         {
             node_ptr node;
-            node = _alloc_node(value);
+            node = alloc_node(value);
             node_ptr y = ft_nullptr_t;
             node_ptr x = this->_root;
 
             while (x != _TNULL)
             {
                 y = x;
-                if (node->data < x->data)
+                if (_comp(selectFirst()(node->data), selectFirst()(x->data)))
                 {
                     x = x->left;
                 }
-                else
+                else if (_comp(selectFirst()(x->data), selectFirst()(node->data)))
                 {
                     x = x->right;
                 }
+                else
+                {
+                    _alloc.destroy(node);
+                    _alloc.deallocate(node, 1);
+                    return (_TNULL);
+                }
             }
-
             node->parent = y;
             if (y == ft_nullptr_t)
-            {
                 _root = node;
-            }
-            else if (node->data < y->data)
-            {
+            else if (_comp(selectFirst()(node->data), selectFirst()(y->data))) // place the new node at it's right placement
                 y->left = node;
-            }
             else
-            {
                 y->right = node;
-            }
-
-            if (node->parent == ft_nullptr_t)
+            if (y == ft_nullptr_t)
             {
-                node->color = RED;
-                return;
+                node->color = BLACK;
+                return (_root);
             }
 
             if (node->parent->parent == ft_nullptr_t)
             {
-                return;
+                return (node);
             }
             insertFix(node);
+            return (node);
+        }
+        node_ptr search(node_ptr node, const key_type &key) const
+        {
+            if (node == _TNULL)
+                return _TNULL;
+            if (key == selectFirst()(node->data))
+                return node;
+            if (_comp(key, selectFirst()(node->data)))
+                return (search(node->left, key));
+            else
+                return (search(node->right, key));
+        }
+        node_ptr search(const key_type &key) const
+        {
+            return search(_root, key);
         }
     };
+
 }
 #endif

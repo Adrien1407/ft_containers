@@ -32,9 +32,8 @@ namespace ft
         Node *right;
         Color color;
 
-
         Node(T data, Node *parent, Node *left, Node *right, Color color) : data(data), parent(parent), left(left), right(right), color(color) {}
-        ~Node() {};
+        ~Node(){};
     };
     template <class Input, class Output>
     struct selectFirst : public std::unary_function<Input, Output>
@@ -65,15 +64,17 @@ namespace ft
         second_type second;
 
         // members functions
-        pair(void) : first(first_type()), second(second_type()){}; // default(1)
+        pair() : first(first_type()), second(second_type()){}; // default(1)
         template <class U, class V>
         pair(const pair<U, V> &pr) : first(pr.first), second(pr.second){};       // copy(2)
         pair(const first_type &a, const second_type &b) : first(a), second(b){}; // initialization(3)
 
         pair &operator=(const pair &pr)
         {
-            first = pr.first;
-            second = pr.second;
+            if (*this == pr)
+                return *this;
+            this->first = pr.first;
+            this->second = pr.second;
             return *this;
         }
     };

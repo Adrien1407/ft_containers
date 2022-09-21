@@ -39,6 +39,7 @@ namespace ft
         // constructors
         bidirectional_iterator() : _ptr(ft_nullptr_t), _root(ft_nullptr_t), _null(ft_nullptr_t){};
         bidirectional_iterator(const bidirectional_iterator &cpy) : _ptr(cpy._ptr), _root(cpy._root), _null(cpy._null){};
+        bidirectional_iterator(node_ptr root, node_ptr base, node_ptr end) : _ptr(base), _null(end), _root(root){};
         // destructors
         virtual ~bidirectional_iterator(){};
 
@@ -99,6 +100,7 @@ namespace ft
         // comparision
         bool operator==(const bidirectional_iterator &lhs) const { return _ptr == lhs._ptr; }
         bool operator!=(const bidirectional_iterator &lhs) const { return _ptr != lhs._ptr; }
+
     private:
         node_ptr successor(node_ptr x)
         {

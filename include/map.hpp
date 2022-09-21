@@ -20,14 +20,6 @@
 
 namespace ft
 {
-	template <class T, class Key>
-	struct get_key : public std::unary_function<T, Key>
-	{
-		const Key &operator()(const T &x) const
-		{
-			return (x.first);
-		}
-	};
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
@@ -157,7 +149,17 @@ namespace ft
 		}
 		ft::pair<iterator, bool> insert(const value_type &value)
 		{
-			return (_tree.insert(value));
+			iterator it = find(value.first);
+			if (it != end())
+			{
+				return (ft::pair<iterator, bool>(it, false));
+			}
+			else
+			{
+				_tree.insert(value);
+				it = find(value.first);
+				return (ft::pair<iterator, bool>(it, true));
+			}
 		}
 
 		iterator insert(iterator hint, const value_type &value)
@@ -208,14 +210,14 @@ namespace ft
 		};
 		iterator find(const Key &key)
 		{
-			node_ptr tmp = _tree._search_node(key);
+			node_ptr tmp = _tree.search(key);
 			if (tmp == _tree.get_end())
 				return (end());
 			return iterator(tmp, _tree.get_root(), _tree.get_end());
 		};
 		iterator find(const Key &key) const
 		{
-			node_ptr tmp = _tree._search_node(key);
+			node_ptr tmp = _tree.search(key);
 			if (tmp == _tree.get_end())
 				return (end());
 			return const_iterator(tmp, _tree.get_root(), _tree.get_end());
@@ -286,7 +288,7 @@ namespace ft
 			return this->_key_compare;
 		}
 
-		value_compare value_comp() const 
+		value_compare value_comp() const
 		{
 			return this->_value_compare;
 		}
