@@ -27,7 +27,6 @@ int main()
     test.insert(ft::pair<int, std::string>(1, "truc"));
     it = test.begin();
     std::cout << '\n';
-
     while (it != test.end())
     {
         // cout << "start of while\n";

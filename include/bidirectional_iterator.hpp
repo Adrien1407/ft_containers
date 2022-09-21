@@ -75,7 +75,7 @@ namespace ft
             return (&_ptr->data);
         }
         // increment and decrement
-        bidirectional_iterator &operator++(void)
+        bidirectional_iterator& operator++(void)
         {
             if (_ptr != _null)
                 _ptr = successor(_ptr);
@@ -84,7 +84,7 @@ namespace ft
         bidirectional_iterator operator++(int)
         {
             bidirectional_iterator old(*this);
-            operator++();
+            this->operator++();
             return (old);
         }
         bidirectional_iterator &operator--(void)
@@ -107,18 +107,17 @@ namespace ft
     protected:
         node_ptr successor(node_ptr x)
         {
-            if (x->right != _null)
-            {
-                return min(x->right);
-            }
-
-            node_ptr y = x->parent;
-            while (y != _null && x == y->right)
-            {
-                x = y;
-                y = y->parent;
-            }
-            return y;
+			if (x->right != _null)
+				return min(x->right);
+			node_ptr y = x->parent;
+			while (y != NULL && x == y->right)
+			{
+				x = y;
+				y = y->parent;
+			}
+			if (y == NULL)
+				return _null;
+			return y;
         }
 
         node_ptr predecessor(node_ptr x)
