@@ -39,7 +39,7 @@ namespace ft
         // constructors
         bidirectional_iterator() : _ptr(ft_nullptr_t), _root(ft_nullptr_t), _null(ft_nullptr_t){};
         bidirectional_iterator(const bidirectional_iterator &cpy) : _ptr(cpy._ptr), _root(cpy._root), _null(cpy._null){};
-        bidirectional_iterator(node_ptr root, node_ptr base, node_ptr end) : _ptr(base), _null(end), _root(root){};
+        bidirectional_iterator(node_ptr root, node_ptr base, node_ptr end) : _ptr(base), _root(root), _null(end){};
         // destructors
         virtual ~bidirectional_iterator(){};
 
