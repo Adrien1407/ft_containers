@@ -9,8 +9,8 @@
 #include "random_access_iterator.hpp"
 #include "utils.hpp"
 
-// 0 - Rules That Every Red-Black Tre00000000000000000000e Follows:
-// 1 - Every node has a color either red or black.
+// 0 - Rules That Every RED-Black Tre00000000000000000000e Follows:
+// 1 - Every node has a color either RED or black.
 // 2 - The _root of the tree is always black.
 // 3 - There are no two adjacent red nodes (A red node cannot have a red parent or red child).
 // 4 - Every path from a node (including root) to any of its descendants NULL nodes has the same number of black nodes.
@@ -38,16 +38,15 @@ namespace ft
         size_type _size;
 
     public:
-        RBtree(allocator_type alloc = allocator_type()) : _root(NULL), _TNULL(NULL), _comp(key_compare()), _alloc(alloc), _size(0)
+        RBtree(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _comp(comp), _alloc(alloc), _size(0)
         {
-            _TNULL = alloc.allocate(1);
+            _TNULL = _alloc.allocate(1);
             _alloc.construct(_TNULL, node_type(value_type(), NULL, NULL, NULL, BLACK));
             _root = _TNULL;
         }
         virtual ~RBtree()
         {
-            clear(_root);
-            _root = _TNULL;
+            clear_h(_root);
             _alloc.destroy(_TNULL);
             _alloc.deallocate(_TNULL, 1);
         }
@@ -55,7 +54,14 @@ namespace ft
         {
             return (this->_size);
         }
-
+        node_ptr get_end() const
+        {
+            return (this->_TNULL);
+        }
+        node_ptr get_root() const
+        {
+            return (this->_root);
+        }
         size_type max_size() const
         {
             return (_alloc.max_size());
@@ -87,15 +93,14 @@ namespace ft
                 node = node->right;
             return node;
         }
-
-        node_ptr get_root() const
-        {
-            return this->_root;
-        }
-
-        node_ptr get_end() const
+        node_ptr get_TNULL() const
         {
             return this->_TNULL;
+        }
+        void clear_h(node_ptr const &node)
+        {
+            clear(node);
+            this->_root = _TNULL;
         }
         void clear(node_ptr const &node)
         {
@@ -103,7 +108,6 @@ namespace ft
                 return;
             clear(node->left);
             clear(node->right);
-
             _alloc.destroy(node);
             _alloc.deallocate(node, 1);
             _size--;
@@ -164,12 +168,6 @@ namespace ft
                 }
             }
             _root->color = BLACK;
-        }
-        void delete_node(node_ptr node)
-        {
-            _alloc.destroy(node);
-            _alloc.deallocate(node, RED);
-            _size--;
         }
         void deleteFix(node_ptr x)
         {
@@ -305,13 +303,9 @@ namespace ft
             {
                 y = x;
                 if (_comp(selectFirst()(node->data), selectFirst()(x->data)))
-                {
                     x = x->left;
-                }
                 else if (_comp(selectFirst()(x->data), selectFirst()(node->data)))
-                {
                     x = x->right;
-                }
                 else
                 {
                     _alloc.destroy(node);
@@ -326,16 +320,15 @@ namespace ft
                 y->left = node;
             else
                 y->right = node;
+            this->_size++;
+
             if (y == ft_nullptr_t)
             {
                 node->color = BLACK;
                 return (_root);
             }
-
             if (node->parent->parent == ft_nullptr_t)
-            {
                 return (node);
-            }
             insertFix(node);
             return (node);
         }
@@ -353,6 +346,135 @@ namespace ft
         node_ptr search(const key_type &key) const
         {
             return search(_root, key);
+        }
+        void rbTransplant(node_ptr u, node_ptr v) // replaces u by v
+        {
+            if (u->parent == ft_nullptr_t)
+                _root = v;
+            else if (u == u->parent->left)
+                u->parent->left = v;
+            else
+                u->parent->right = v;
+            v->parent = u->parent;
+        }
+        bool erase(key_type key)
+        {
+            node_ptr z, x, y;
+
+            z = search(key);
+            if (z == _TNULL)
+                return false;
+
+            y = z; // y saves the suppressed node's placement
+            Color y_og_color = y->color;
+            if (z->left == _TNULL) // z only had 1 child whitch is the right one so so it get's replaced by it's child
+            {
+                x = z->right; // x saves the right child's branch
+                rbTransplant(z, z->right);
+            }
+            else if (z->right == _TNULL) // mirror case
+            {
+                x = z->left;
+                rbTransplant(z, z->left);
+            }
+            else // suppressed node had 2 children and is replaced by the minimum of it's right branch
+            {
+                y = min(z->right); // search for the minimum in the right child's branch
+                y_og_color = y->color;
+                x = y->right;       // x saves the minimum's right branch
+                if (y->parent == z) // the minimum is z->right
+                    x->parent = y;
+                else
+                {
+                    rbTransplant(y, y->right); // replaces the minimum by it's right branch
+                    y->right = z->right;       // set the new z's right side
+                    y->right->parent = y;
+                }
+                rbTransplant(z, y); // replace z by the correct value whitch is y and maintain the tree as a good search tree
+                y->left = z->left;
+                y->left->parent = y;
+                y->color = z->color;
+            }
+            _alloc.destroy(z);
+            _alloc.deallocate(z, 1);
+            _size--;
+            if (y_og_color == BLACK) // fix the lost black color on x
+                fixDelete(x);
+            return true;
+        }
+        // fix the rb tree modified by the delete operation
+        void fixDelete(node_ptr x)
+        {
+            node_ptr w;
+
+            while (x != this->_root && x->color == BLACK)
+            {
+                if (x == x->parent->left) // if x is the left child
+                {
+                    w = x->parent->right; // w is x's right brother
+                    if (w->color == RED)
+                    {
+                        w->color = BLACK;
+                        x->parent->color = RED;
+                        leftRotate(x->parent); // new parent is w, old parent p became w's left child, p is still x's parent and x->parent->right bacame old w->left
+                        w = x->parent->right;
+                    }
+
+                    if (w->left->color == BLACK && w->right->color == BLACK)
+                    {
+                        w->color = RED;
+                        x = x->parent;
+                    }
+                    else // at least one child is RED
+                    {
+                        if (w->right->color == BLACK) // left child is RED
+                        {
+                            w->left->color = BLACK;
+                            w->color = RED;
+                            rightRotate(w);
+                            w = x->parent->right;
+                        }
+                        w->color = x->parent->color;
+                        x->parent->color = BLACK;
+                        w->right->color = BLACK;
+                        leftRotate(x->parent);
+                        x = _root;
+                    }
+                }
+                else // mirror case
+                {
+                    w = x->parent->left;
+                    if (w->color == RED)
+                    {
+                        w->color = BLACK;
+                        x->parent->color = RED;
+                        rightRotate(x->parent);
+                        w = x->parent->left;
+                    }
+
+                    if (w->left->color == BLACK && w->right->color == BLACK)
+                    {
+                        w->color = RED;
+                        x = x->parent;
+                    }
+                    else
+                    {
+                        if (w->left->color == BLACK)
+                        {
+                            w->right->color = BLACK;
+                            w->color = RED;
+                            leftRotate(w);
+                            w = x->parent->left;
+                        }
+                        w->color = x->parent->color;
+                        x->parent->color = BLACK;
+                        w->left->color = BLACK;
+                        rightRotate(x->parent);
+                        x = _root;
+                    }
+                }
+            }
+            x->color = BLACK; // root always is black
         }
     };
 
