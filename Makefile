@@ -16,6 +16,7 @@ SRCS = mains/main.cpp
 
 HEADER = ../includes/iterator.hpp \
 		 ../includes/map.hpp \
+		 ../includes/set.hpp \
 		 ../includes/vector.hpp \
 		 ../includes/random_access_iterator.hpp \
 		 ../includes/stack.hpp \

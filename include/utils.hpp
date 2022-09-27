@@ -43,6 +43,14 @@ namespace ft
             return x.first;
         }
     };
+    template <class Input, class Output>
+    struct _selectFirst : public std::unary_function<Input, Output>
+    {
+        const Output &operator()(const Input &x) const
+        {
+            return x;
+        }
+    };
 
     template <class Input, class Output>
     struct selectKey : public std::unary_function<Input, Output>

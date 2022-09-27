@@ -109,19 +109,19 @@ namespace ft
 		};
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(end() - 1));
+			return (reverse_iterator(end()));
 		};
 		const_reverse_iterator rbegin() const
 		{
-			return (const_reverse_iterator(end() - 1));
+			return (const_reverse_iterator(end()));
 		};
 		reverse_iterator rend()
 		{
-			return (reverse_iterator(_ptr - 1));
+			return (reverse_iterator(_ptr));
 		};
 		const_reverse_iterator rend() const
 		{
-			return (const__reverse_iterator(_ptr - 1));
+			return (const__reverse_iterator(_ptr));
 		};
 
 		// capacity
@@ -304,17 +304,16 @@ namespace ft
 				new_capacity = _size_container + count;
 			reserve(new_capacity); // (otherwhise iterator `pos` is invalidated)
 }
-			std::allocator<T> alloc;
 
 			for (ptrdiff_t i = _size_container - 1; i >= (ptrdiff_t)index; i--)
 			{
 				// move elements count times to the right
-				alloc.construct(&_ptr[i + count], _ptr[i]); // copy constructor
-				alloc.destroy(&_ptr[i]);					// call destructor
+				_alloc.construct(&_ptr[i + count], _ptr[i]); // copy constructor
+				_alloc.destroy(&_ptr[i]);					// call destructor
 			}
 
 			for (size_type i = index; i < index + count; i++)
-				alloc.construct(&_ptr[i], value); // copy constructor
+				_alloc.construct(&_ptr[i], value); // copy constructor
 
 			_size_container += count;
 		}

@@ -49,9 +49,6 @@ namespace ft
         {
             if (this != &cpy)
             {
-
-                        std::cout << "here\n";
-
                 _ptr = cpy._ptr;
                 _root = cpy._root;
                 _null = cpy._null;

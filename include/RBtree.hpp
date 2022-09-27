@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/18 16:09:03 by adlancel          #+#    #+#             */
+/*   Updated: 2022/06/09 17:32:04 by adlancel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
 
@@ -168,6 +180,17 @@ namespace ft
                 }
             }
             _root->color = BLACK;
+        }
+        void swap(RBtree &x)
+		{
+			std::swap(this->_root, x._root);
+			std::swap(this->_TNULL, x._TNULL);
+			std::swap(this->_size, x._size);
+		}
+    bool deleteNode(key_type key)
+        {
+            return (this->erase(key));
+
         }
         void deleteFix(node_ptr x)
         {

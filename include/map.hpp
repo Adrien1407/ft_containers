@@ -211,9 +211,6 @@ namespace ft
 		};
 		void swap(map &other)
 		{
-			std::swap(_alloc, other._alloc);
-			std::swap(_key_compare, other._key_compare);
-			std::swap(_value_compare, other._value_compare);
 			_tree.swap(other._tree);
 		};
 		size_type count(const Key &key) const
@@ -316,6 +313,12 @@ namespace ft
 			return this->_value_compare;
 		}
 	};
+	template< class Key, class T, class Compare, class Alloc >
+void swap( ft::map<Key,T,Compare,Alloc>& lhs,
+           ft::map<Key,T,Compare,Alloc>& rhs )
+{
+	lhs.swap(rhs);
+}
 	template<class Key, class T, class Compare, class Alloc>
 bool operator==(const ft::map<Key, T, Compare, Alloc>& lhs,
 	const ft::map<Key, T, Compare, Alloc>& rhs) {
