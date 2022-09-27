@@ -108,6 +108,11 @@ namespace ft
             _ptr += op;
             return (*this);
         }
+
+        difference_type _comp(const reverse_iterator<Iterator> rhs) const
+        {
+            return (rhs.base() - this->_ptr);
+        }
     };
 
     // Non member functions : comparaison operators overloads
@@ -193,13 +198,13 @@ namespace ft
     template <class Iterator>
     typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iterator> &rhs)
     {
-        return ((rhs._ptr - lhs._ptr));
+        return (lhs._comp(rhs));
     }
 
-    template <class Iterator1, class Iterator2>
-    typename reverse_iterator<Iterator1>::difference_type operator-(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
+    template <class Iterator, class Iter>
+    typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iter> &rhs)
     {
-        return ((rhs._ptr - lhs._ptr));
+        return (lhs._comp(rhs));
     }
 } // ft
 #endif

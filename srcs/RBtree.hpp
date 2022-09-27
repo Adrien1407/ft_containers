@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 16:09:03 by adlancel          #+#    #+#             */
-/*   Updated: 2022/06/09 17:32:04 by adlancel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
 
@@ -62,6 +50,7 @@ namespace ft
             _alloc.destroy(_TNULL);
             _alloc.deallocate(_TNULL, 1);
         }
+        
         size_type get_size() const
         {
             return (this->_size);

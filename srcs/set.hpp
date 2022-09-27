@@ -38,7 +38,7 @@ namespace ft
         typedef typename Alloc::const_pointer const_pointer;
         typedef Node<value_type> node_type;
         typedef node_type *node_ptr;
-        typedef typename ft::bidirectional_iterator<value_type, node_type> iterator;
+        typedef typename ft::bidirectional_iterator<const value_type, const node_type> iterator;
         typedef typename ft::bidirectional_iterator<const value_type, const node_type> const_iterator;
         typedef typename ft::reverse_iterator<iterator> reverse_iterator;
         typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
@@ -60,7 +60,7 @@ namespace ft
         {
             insert(first, last);
         }
-        set(const set &other) : _alloc(other._alloc), key_compare(other._key_compare),
+        set(const set &other) : _alloc(other._alloc), _key_compare(other._key_compare),
                                 _value_compare(other._value_compare)
         {
 
@@ -140,7 +140,7 @@ namespace ft
         };
         size_type max_size() const
         {
-            return (_alloc.max_size());
+            return (_tree.max_size());
         };
         void clear()
         {
