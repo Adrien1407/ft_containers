@@ -1,0 +1,16 @@
+STD
+begin = 3
+STD
+end -1  = 3
+STD
+begin = a
+STD
+end -1  = a
+STD
+begin = bonjour
+STD
+end -1  = bonjour
+STD
+begin = 0
+STD
+end -1  = 9

@@ -45,7 +45,7 @@ namespace ft
         typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
         typedef typename std::size_t size_type;
 
-        typedef ft::RBtree<key_type, value_type, ft::_selectFirst<value_type, key_type>, key_compare> tree_type;
+        typedef ft::RBtree<key_type, value_type, ft::_selectFirst<value_type, key_type>, key_compare, Alloc> tree_type;
 
     protected:
         allocator_type _alloc;

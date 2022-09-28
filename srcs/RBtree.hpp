@@ -18,7 +18,7 @@
 
 namespace ft
 {
-    template <class Key, class T, class selectFirst, class Compare = std::less<Key>, class Alloc = std::allocator<Node<T> > >
+    template <class Key, class T, class selectFirst, class Compare , class Alloc>
     class RBtree
     {
     public:
@@ -26,6 +26,7 @@ namespace ft
         typedef Key key_type;
         typedef Compare key_compare;
         typedef Alloc allocator_type;
+        typedef typename allocator_type::template rebind<Node<T> >::other 			allocator_node;
         typedef Node<value_type> node_type;
         typedef Node<value_type> *node_ptr;
         typedef std::size_t size_type;
@@ -34,11 +35,11 @@ namespace ft
         node_ptr _root;
         node_ptr _TNULL;
         key_compare _comp;
-        allocator_type _alloc;
+        allocator_node _alloc;
         size_type _size;
 
     public:
-        RBtree(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _comp(comp), _alloc(alloc), _size(0)
+        RBtree(const key_compare &comp = key_compare(), const allocator_node &alloc = allocator_node()) : _comp(comp), _alloc(alloc), _size(0)
         {
             _TNULL = _alloc.allocate(1);
             _alloc.construct(_TNULL, node_type(value_type(), NULL, NULL, NULL, BLACK));

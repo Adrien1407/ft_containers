@@ -1,0 +1,16 @@
+FT
+begin = 3
+FT
+end -1  = 3
+FT
+begin = a
+FT
+end -1  = a
+FT
+begin = bonjour
+FT
+end -1  = bonjour
+FT
+begin = 0
+FT
+end -1  = 9
