@@ -38,338 +38,442 @@ public:
 private:
     int _n;
 };
+// std::cout << ""<<std::endl;
 
 template <class T>
-void print_vector(NAMESPACE::vector<T> a)
+void print(NAMESPACE::vector<T> &lst)
 {
-    if (a.capacity() != 0)
-    {
-        // std::cout << print++ << _NC << "  > ";
-        std::cout << "vector contains : ";
-        for (typename NAMESPACE::vector<T>::iterator it = a.begin(); it != a.end(); it++)
-            std::cout << *it << ", ";
-        // std::cout << "   Size of vector -> " << a.size() << std::endl;
-        std::cout << std::endl;
-    }
-    else
-    {
-        std::cerr << "this vector is empty ... " << std::endl;
-    }
-}
-std::ostream &operator<<(std::ostream &o, Awesome const &rhs)
-{
-    o << rhs.get();
-    return o;
+    std::cout << "vector contains : ";
+    for (typename NAMESPACE::vector<T>::iterator it = lst.begin(); it != lst.end(); it++)
+        std::cout << *it << ' ';
+    std::cout << '\n';
 }
 
-template <class T>
-void vector_begin_test(NAMESPACE::vector<T> myvec)
+void vector_constructor_test()
 {
-    typename NAMESPACE::vector<T>::iterator it = myvec.begin();
-    std::cout << "begin  = " << *it << std::endl;
-}
-template <class T>
-void vector_end_test(NAMESPACE::vector<T> myvec)
-{
-    typename NAMESPACE::vector<T>::iterator it = myvec.end();
-    std::cout << "end    = " << *--it << std::endl;
-}
-template <class T>
-void vector_rbegin_test(NAMESPACE::vector<T> myvec)
-{
-    typename NAMESPACE::vector<T>::reverse_iterator it = myvec.rbegin();
-    std::cout << "rbegin = " << *it << std::endl;
-}
-template <class T>
-void vector_rend_test(NAMESPACE::vector<T> myvec)
-{
-    typename NAMESPACE::vector<T>::reverse_iterator it = myvec.rend();
-    std::cout << "rend   = " << *--it << std::endl;
-}
-// template <class T>
-// void vector_relationals_test()
-// {
-//     NAMESPACE::vector<int> my_vec_int_1(10, 10);
-//     NAMESPACE::vector<int> my_vec_int_2(9, 10);
-//     NAMESPACE::vector<int> my_vec_int_3(my_vec_int_1);
-
-//     NAMESPACE::vector<double> my_vec_double_1(3.14116, 20);
-//     NAMESPACE::vector<double> my_vec_double_2(3.13333, 20;
-//     NAMESPACE::vector<double> my_vec_double_3;(my_vec_double_2)
-
-//     NAMESPACE::vector<std::string> my_vec_string_1();
-//     NAMESPACE::vector<std::string> my_vec_string_2();
-//     NAMESPACE::vector<Awesome> my_vec_class_1();
-//     NAMESPACE::vector<Awesome> my_vec_class_2();
-// }
-
-void vector_comparision_operator()
-{
+    std::cout << std::setw(30) << "CONSTRUCTOR TESTS" << std::endl;
     std::cout << std::endl;
-    std::cout << std::setw(50) << "COMPARISION OPERATORS" << std::endl;
+    std::cout << "first vector initialized with no values" << std::endl;
+    NAMESPACE::vector<int> vec;
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "size = " << vec.size() << std::endl;
+    print(vec);
     std::cout << std::endl;
-
-    NAMESPACE::vector<int> vec_int(4, 8);
-    NAMESPACE::vector<double> vec_double(4, 8.00);
-    // NAMESPACE::vector<std::string> vec_string(4, "bonjour");
-    // NAMESPACE::vector<NAMESPACE::vector<std::string> > vec_vec_string(4, vec_string);
-
-    NAMESPACE::vector<int>::iterator iti = vec_int.begin();
-    NAMESPACE::vector<double>::iterator itd = vec_double.begin();
-    // NAMESPACE::vector<std::string>::iterator its = vec_string.begin();
-    // NAMESPACE::vector<NAMESPACE::vector<std::string> >::iterator itv = vec_vec_string.begin();
-
-    std::cout << *iti << " == " << *itd << " ?";
-    (*iti == *itd) ? std::cout << " yes" : std::cout << " no";
+    std::cout << "second vector initialized with 10 values" << std::endl;
+    NAMESPACE::vector<int> vec2(10, 10);
+    std::cout << "capacity = " << vec2.capacity() << std::endl;
+    std::cout << "size = " << vec2.size() << std::endl;
+    print(vec2);
     std::cout << std::endl;
-
-    std::cout << *iti << " != " << *itd << " ?";
-    (*iti != *itd) ? std::cout << " yes" : std::cout << " no";
+    std::cout << "third vector initialized by copying vector2" << std::endl;
+    NAMESPACE::vector<int> vec3(vec2);
+    std::cout << "capacity = " << vec3.capacity() << std::endl;
+    std::cout << "size = " << vec3.size() << std::endl;
+    print(vec3);
     std::cout << std::endl;
-
-    std::cout << *iti << " >= " << *itd << " ?";
-    (*iti >= *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " <= " << *itd << " ?";
-    (*iti <= *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " > " << *itd << " ?";
-    (*iti > *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " < " << *itd << " ?";
-    (*iti < *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << std::endl;
-    std::cout << "we modify left part" << std::endl;
-    std::cout << std::endl;
-
-    *iti = 2;
-
-    std::cout << *iti << " == " << *itd << " ?";
-    (*iti == *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " != " << *itd << " ?";
-    (*iti != *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " >= " << *itd << " ?";
-    (*iti >= *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " <= " << *itd << " ?";
-    (*iti <= *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " > " << *itd << " ?";
-    (*iti > *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    std::cout << *iti << " < " << *itd << " ?";
-    (*iti < *itd) ? std::cout << " yes" : std::cout << " no";
-    std::cout << std::endl;
-
-    // std::cout << "string comparision" << std::endl;
-
-    // std::cout << *its << " == " << *itv << " ?";
-    // (*its == *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " != " << *itv << " ?";
-    // (*its != *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " >= " << *itv << " ?";
-    // (*its >= *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " <= " << *itv << " ?";
-    // (*its <= *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " > " << *itv << " ?";
-    // (*its > *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " < " << *itv << " ?";
-    // (*its < *itv) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << std::endl;
-    // std::cout << "we modify left part" << std::endl;
-    // std::cout << std::endl;
-
-    // *its = "hello";
-
-    // std::cout << *its << " == " << *(its + 1) << " ?";
-    // (*its == *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *its << " != " << *(its + 1) << " ?";
-    // (*its != *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *iti << " >= " << *(its + 1) << " ?";
-    // (*iti >= *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *iti << " <= " << *(its + 1) << " ?";
-    // (*iti <= *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *iti << " > " << *(its + 1) << " ?";
-    // (*iti > *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-
-    // std::cout << *iti << " < " << *(its + 1) << " ?";
-    // (*iti < *(its + 1)) ? std::cout << " yes" : std::cout << " no";
-    // std::cout << std::endl;
-}
-
-template <class T>
-void vector_capacity_test(NAMESPACE::vector<T> myvec)
-{
-    std::cout << std::endl;
-    std::cout << "CAPACITY/SIZE" << std::endl;
-    std::cout << std::endl;
-    print_vector(myvec);
-
-    std::cout << "myvec_capacity = " << myvec.capacity() << std::endl;
-    std::cout << "myvec_size = " << myvec.size() << std::endl;
-    std::cout << "myvec is empty ? ";
-    (myvec.empty()) ? std::cout << "yes" : std::cout << "no";
-    std::cout << std::endl;
+    std::cout << "fourth vector initialized by range(7)" << std::endl;
+    NAMESPACE::vector<int> vec4(vec2.begin() + 3, vec2.end());
+    std::cout << "capacity = " << vec4.capacity() << std::endl;
+    std::cout << "size = " << vec4.size() << std::endl;
+    print(vec4);
     std::cout << std::endl;
     while (std::cin.get() != '\n')
     {
     }
-    std::cout << "we delete 1 value" << std::endl;
-    myvec.erase(myvec.begin());
+}
 
-    std::cout << "myvec_capacity = " << myvec.capacity() << std::endl;
-    std::cout << "myvec_size = " << myvec.size() << std::endl;
-    print_vector(myvec);
+void vector_iterators_test()
+{
+    std::cout << std::setw(30) << "ITERATOR TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    std::cout << "we push 100 values in our vector " << std::endl;
+    for (int i = 0; i < 100; i++)
+        vec.push_back((i * 3) - (i + 2) + (i / 2));
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << std::endl;
+    std::cout << "begin = " << *vec.begin() << std::endl;
+    std::cout << "end = " << *vec.end() << std::endl;
+    std::cout << "rbegin = " << *vec.rbegin() << std::endl;
+    std::cout << "rend = " << *vec.rend() << std::endl;
+    std::cout << std::endl;
+    std::cout << "we insert 9999 as begin value " << std::endl;
+    vec.insert(vec.begin(), 9999);
+    std::cout << "new begin = " << *vec.begin() << std::endl;
+
+    std::cout << "we print in reverse mode with reverse iterators" << std::endl
+              << std::endl;
+    for (NAMESPACE::vector<int>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++)
+        std::cout << *it << ", ";
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::setw(30) << "COMPARISION ITERATORS" << std::endl;
+    std::cout << std::endl;
+    std::cout << vec[0] << " == " << vec[1] << " ? ";
+    (vec[0] == vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << vec[0] << " != " << vec[1] << " ? ";
+    (vec[0] != vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << vec[0] << " >= " << vec[1] << " ? ";
+    (vec[0] >= vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << vec[0] << " > " << vec[1] << " ? ";
+    (vec[0] > vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << vec[0] << " <= " << vec[1] << " ? ";
+    (vec[0] <= vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << vec[0] << " < " << vec[1] << " ? ";
+    (vec[0] < vec[1]) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
     while (std::cin.get() != '\n')
     {
     }
-    for (int i = 0; i < 30; i++)
-        myvec.push_back(*myvec.begin());
-    print_vector(myvec);
-    std::cout << "myvec_capacity = " << myvec.capacity() << std::endl;
-    std::cout << "myvec_size = " << myvec.size() << std::endl;
+}
+void vector_at_test()
+{
+    std::cout << std::setw(30) << "AT TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 100; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << "vec.at(1) = " << vec.at(1) << std::endl;
+    std::cout << "vec.at(99) = " << vec.at(99) << std::endl;
+    std::cout << std::endl;
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_access_op_test()
+{
+    std::cout << std::setw(30) << " OPERATOR[] TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 100; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << "vec[0] = " << vec[0] << std::endl;
+    std::cout << "vec[2] = " << vec[2] << std::endl;
+    std::cout << "vec[99] = " << vec[99] << std::endl;
+    std::cout << std::endl;
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_front_test()
+{
+    std::cout << std::setw(30) << "FRONT TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 100; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << "vec.front() = " << vec.front() << std::endl;
+    std::cout << "we insert new front value(99) " << std::endl;
+    vec.insert(vec.begin(), 99);
+    print(vec);
+
+    std::cout << "new vec.front() = " << vec.front() << std::endl;
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
 }
 
-// std::cout << "!=" std::endl;
-// std::cout << ">=" std::endl;
-// std::cout << "<=" std::endl;
-// std::cout << ">" std::endl;
-// std::cout << "<"  std::endl;
+void vector_back_test()
+{
+    std::cout << std::setw(30) << "BACK TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 100; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << "vec.back() = " << vec.back() << std::endl;
+    std::cout << "we insert new back value(99) " << std::endl;
+    vec.insert(vec.end(), 99);
+    print(vec);
 
+    std::cout << "new vec.back() = " << vec.back() << std::endl;
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_capacity_test()
+{
+    std::cout << std::setw(30) << "CAPACITY TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3);
+        std::cout << "capacity = " << vec.capacity() << std::endl;
+        std::cout << "size = " << vec.size() << std::endl;
+    }
+    std::cout << "we insert 100 values" << std::endl;
+    vec.insert(vec.begin(), 100, 100);
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << std::endl;
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_clear_test()
+{
+    std::cout << std::setw(30) << "CLEAR TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 20; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "size = " << vec.size() << std::endl
+              << std::endl;
+    std::cout << "we clear vec" << std::endl;
+    vec.clear();
+    print(vec);
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_insert_test()
+{
+    std::cout << std::setw(30) << "INSERT TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    NAMESPACE::vector<int> vec2;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3);
+        vec2.push_back(i * 3);
+    }
+    print(vec);
+    std::cout << "we insert one value (10 at begin)" << std::endl
+              << std::endl;
+    vec.insert(vec.begin(), 10);
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we insert 100 values at end" << std::endl
+              << std::endl;
+    vec.insert(vec.end(), 100, 100);
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we insert a range at position 20" << std::endl
+              << std::endl;
+    vec.insert(vec.begin() + 20, vec2.begin(), vec2.end());
+    print(vec);
+
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_erase_test()
+{
+    std::cout << std::setw(30) << "ERASE TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    for (int i = 0; i < 20; i++)
+        vec.push_back(i * 4);
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we erase last value" << std::endl
+              << std::endl;
+    vec.erase(vec.end() - 1);
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we erase 10 first value" << std::endl;
+    for (int i = 0; i < 10; i++)
+        vec.erase(vec.begin());
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we erase second value" << std::endl;
+    vec.erase(vec.begin() + 1);
+    print(vec);
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_push_back_test()
+{
+    std::cout << std::setw(30) << "PUSHBACK TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    std::cout << "we push back 20 values" << std::endl;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3);
+        print(vec);
+    }
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_pop_back_test()
+{
+    std::cout << std::setw(30) << "POPBACK TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    std::cout << "we push back 20 values" << std::endl;
+    for (int i = 0; i < 20; i++)
+        vec.push_back(i * 3);
+    print(vec);
+    std::cout << std::endl;
+    std::cout << "we pop back 10 last values" << std::endl;
+    for (int i = 0; i < 10; i++)
+        vec.pop_back();
+    print(vec);
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_resize_test()
+{
+    std::cout << std::setw(30) << "RESIZE TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << "we resize the vector to 20" << std::endl;
+    vec.resize(20);
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << "we resize the vector to 1" << std::endl;
+    vec.resize(1);
+    std::cout << "size = " << vec.size() << std::endl;
+    std::cout << "capacity = " << vec.capacity() << std::endl;
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_swap_values_test()
+{
+    std::cout << std::setw(30) << "SWAP VALUES TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    NAMESPACE::vector<int> vec2;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3);
+        vec2.push_back(i * i + 2);
+    }
+    print(vec);
+    print(vec2);
+    std::cout << std::endl;
+    std::cout << "we swap vec with vec2" << std::endl;
+    vec.swap(vec2);
+    print(vec);
+    print(vec2);
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_swap_vec_test()
+{
+    std::cout << std::setw(30) << "NON MEMBER SWAP VECTOR TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    NAMESPACE::vector<int> vec2;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3 + 2);
+        vec2.push_back(i * i * i + 5);
+    }
+    print(vec);
+    print(vec2);
+    std::cout << "we swap vec and vec2" << std::endl;
+    swap(vec, vec2);
+    print(vec);
+    print(vec2);
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
+void vector_comparision_test()
+{
+    std::cout << std::setw(30) << "COMPARISION TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+    NAMESPACE::vector<int> vec2;
+    for (int i = 0; i < 20; i++)
+    {
+        vec.push_back(i * 3 + 2);
+        vec2.push_back(i * i * i + 5);
+    }
+    print(vec);
+    print(vec2);
+    std::cout << "vec == vec2? ";
+    (vec == vec2) ? std::cout << "vectors are equal" : std::cout << "vector are not equal";
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec3;
+    for (int i = 0; i < 20; i++)
+        vec3.push_back(i * i * i + 5);
+    std::cout << "we create a third vector, identical to second" << std::endl;
+    print(vec3);
+    std::cout << "vec2 == vec3? ";
+    (vec2 == vec3) ? std::cout << "vectors are equal" : std::cout << "vector are not equal";
+    std::cout << "we modify third vector first value" << std::endl;
+    vec3[0] = 4;
+    print(vec3);
+    std::cout << std::endl;
+    std::cout << "vec2 != vec3 ? ";
+    (vec2 != vec3) ? std::cout << "vectors not equal" : std::cout << "vectors equal";
+    std::cout << std::endl;
+    std::cout << "vec2 >= vec3 ? ";
+    (vec2 >= vec3) ? std::cout << "vec2 superior to vec3" : std::cout << "vec2 not superior to vec3";
+    std::cout << std::endl;
+    std::cout << "vec2 > vec3 ? ";
+    (vec2 > vec3) ? std::cout << "vec2 strictly superior to vec3" : std::cout << "vec2 not strictly superior to vec3";
+    std::cout << std::endl;
+    std::cout << "vec2 <= vec3 ? ";
+    (vec2 <= vec3) ? std::cout << "vec2 inferior to vec3" : std::cout << "vec2 not inferior to vec3";
+    std::cout << std::endl;
+    std::cout << "vec2 < vec3 ? ";
+    (vec2 < vec3) ? std::cout << "vec2 strictly inferior to vec3" : std::cout << "vec2 not strictly inferior to vec3";
+    std::cout << std::endl;
+
+    while (std::cin.get() != '\n')
+    {
+    }
+}
 void vector_test()
 {
-    std::cout << "===============================   " << USING << "   =======================================" << std::endl;
-
-    std::cout << std::endl;
-    std::cout << std::setw(40) << "ITERATORS" << std::endl;
-
-    // int
-    {
-        std::cout << std::setw(20) << "INT VECTOR" << std::endl;
-        NAMESPACE::vector<int> myvec;
-        for (int i = 0; i < 10; i++)
-        {
-            myvec.push_back(i * 4);
-        }
-        vector_begin_test(myvec);
-        vector_end_test(myvec);
-        vector_rbegin_test(myvec);
-        vector_rend_test(myvec);
-        vector_capacity_test(myvec);
-        while (std::cin.get() != '\n')
-        {
-        }
-    }
-
-    // double
-    {
-        NAMESPACE::vector<double> myvec;
-        for (int i = 0; i < 10; i++)
-        {
-            myvec.push_back(i + 0.002);
-        }
-        std::cout << std::setw(20) << "DOUBLE VECTOR" << std::endl;
-        vector_begin_test(myvec);
-        vector_end_test(myvec);
-        vector_rbegin_test(myvec);
-        vector_rend_test(myvec);
-        vector_capacity_test(myvec);
-        while (std::cin.get() != '\n')
-        {
-        }
-    }
-    // char
-    {
-        NAMESPACE::vector<char> myvec;
-        for (int i = 0; i < 10; i++)
-        {
-            myvec.push_back('a' + 2 * i);
-        }
-
-        std::cout << std::setw(20) << "CHAR VECTOR" << std::endl;
-        vector_begin_test(myvec);
-        vector_end_test(myvec);
-        vector_rbegin_test(myvec);
-        vector_rend_test(myvec);
-        vector_capacity_test(myvec);
-        while (std::cin.get() != '\n')
-        {
-        }
-    }
-    // str
-    {
-        std::string tab[4] = {
-            "bonjour",
-            "le",
-            "correcteur",
-            "!"};
-
-        NAMESPACE::vector<std::string> myvec;
-        for (int i = 0; i < 4; i++)
-        {
-            myvec.push_back(tab[i]);
-        }
-
-        std::cout << std::setw(20) << "STRING VECTOR" << std::endl;
-        vector_begin_test(myvec);
-        vector_end_test(myvec);
-        vector_rbegin_test(myvec);
-        vector_rend_test(myvec);
-        vector_capacity_test(myvec);
-        while (std::cin.get() != '\n')
-        {
-        }
-    }
-    // class
-    {
-        std::cout << std::setw(20) << "CLASS VECTOR" << std::endl;
-        int i = 0;
-        NAMESPACE::vector<Awesome> myvec(10);
-        for (NAMESPACE::vector<Awesome>::iterator it = myvec.begin(); it != myvec.end(); it++)
-        {
-            *it = Awesome(i++);
-        }
-        vector_begin_test(myvec);
-        vector_end_test(myvec);
-        vector_rbegin_test(myvec);
-        vector_rend_test(myvec);
-        vector_capacity_test(myvec);
-        while (std::cin.get() != '\n')
-        {
-        }
-    }
-    vector_comparision_operator();
-};
+    vector_constructor_test();
+    vector_iterators_test();
+    vector_at_test();
+    vector_access_op_test();
+    vector_front_test();
+    vector_back_test();
+    vector_capacity_test();
+    vector_clear_test();
+    vector_insert_test();
+    vector_erase_test();
+    vector_push_back_test();
+    vector_pop_back_test();
+    vector_resize_test();
+    vector_swap_values_test();
+    vector_swap_vec_test();
+    vector_comparision_test();
+}
