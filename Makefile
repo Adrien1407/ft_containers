@@ -17,7 +17,7 @@ NAME_STD = std_containers
 
 SRCS = vector.cpp \
 main.cpp \
-			# map.cpp \
+map.cpp \
 			# stack.cpp \
 			# set.cpp \
 

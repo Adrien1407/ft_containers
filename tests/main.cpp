@@ -6,12 +6,13 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:08:06 by adlancel          #+#    #+#             */
-/*   Updated: 2022/09/28 16:16:10 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:41:20 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "./test.hpp"
 
 int main()
 {
-	vector_test();
+	//vector_test();
+	map_test();
 }

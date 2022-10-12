@@ -97,17 +97,7 @@ namespace ft
 			insert(x.begin(), x.end());
 			return *this;
 		}
-		// map &operator=(const map &other)
-		// {
-		// 	if (this != &other)
-		// 	{
-		// 		clear();
-		// 		_alloc = other._alloc;
-		// 		_key_compare = other._key_compare;
-		// 		this->insert(other.begin(), other.end());
-		// 	}
-		// 	return (*this);
-		// };
+
 		mapped_type &operator[](const key_type &k)
 		{
 			node_ptr val = _tree.search(k);
