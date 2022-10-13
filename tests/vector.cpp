@@ -6,7 +6,7 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:55:57 by adlancel          #+#    #+#             */
-/*   Updated: 2022/10/12 12:56:08 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:04:07 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sys/time.h>
+#include "./test.hpp"
 
 class Awesome
 {
@@ -89,9 +91,9 @@ void vector_constructor_test()
     std::cout << "size = " << vec4.size() << std::endl;
     print(vec4);
     std::cout << std::endl;
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 
 void vector_iterators_test()
@@ -140,9 +142,9 @@ void vector_iterators_test()
     std::cout << vec[0] << " < " << vec[1] << " ? ";
     (vec[0] < vec[1]) ? std::cout << "yes" : std::cout << "no";
     std::cout << std::endl;
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_at_test()
 {
@@ -155,9 +157,9 @@ void vector_at_test()
     std::cout << "vec.at(1) = " << vec.at(1) << std::endl;
     std::cout << "vec.at(99) = " << vec.at(99) << std::endl;
     std::cout << std::endl;
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_access_op_test()
 {
@@ -171,9 +173,9 @@ void vector_access_op_test()
     std::cout << "vec[2] = " << vec[2] << std::endl;
     std::cout << "vec[99] = " << vec[99] << std::endl;
     std::cout << std::endl;
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_front_test()
 {
@@ -191,9 +193,9 @@ void vector_front_test()
     std::cout << "new vec.front() = " << vec.front() << std::endl;
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 
 void vector_back_test()
@@ -212,9 +214,9 @@ void vector_back_test()
     std::cout << "new vec.back() = " << vec.back() << std::endl;
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_capacity_test()
 {
@@ -232,9 +234,9 @@ void vector_capacity_test()
     std::cout << "capacity = " << vec.capacity() << std::endl;
     std::cout << "size = " << vec.size() << std::endl;
     std::cout << std::endl;
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_clear_test()
 {
@@ -254,9 +256,9 @@ void vector_clear_test()
     std::cout << "size = " << vec.size() << std::endl;
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_insert_test()
 {
@@ -287,9 +289,9 @@ void vector_insert_test()
 
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_erase_test()
 {
@@ -315,9 +317,9 @@ void vector_erase_test()
     print(vec);
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_push_back_test()
 {
@@ -332,9 +334,9 @@ void vector_push_back_test()
     }
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_pop_back_test()
 {
@@ -352,9 +354,9 @@ void vector_pop_back_test()
     print(vec);
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_resize_test()
 {
@@ -372,10 +374,37 @@ void vector_resize_test()
     std::cout << "capacity = " << vec.capacity() << std::endl;
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
+    try
     {
+        vec.resize(vec.max_size() + 12);
     }
+    catch (const std::exception &e)
+    {
+        std::cerr << "exception : " << e.what() << std::endl;
+    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
+void vector_reserve_test()
+{
+    std::cout << std::setw(30) << "RESERVE TESTS" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::vector<int> vec;
+
+    try
+    {
+        vec.reserve(vec.max_size() + 12);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "exception : " << e.what() << std::endl;
+    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
+}
+
 void vector_swap_values_test()
 {
     std::cout << std::setw(30) << "SWAP VALUES TESTS" << std::endl;
@@ -396,9 +425,9 @@ void vector_swap_values_test()
     print(vec2);
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_swap_vec_test()
 {
@@ -419,9 +448,9 @@ void vector_swap_vec_test()
     print(vec2);
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void vector_comparision_test()
 {
@@ -466,10 +495,26 @@ void vector_comparision_test()
     (vec2 < vec3) ? std::cout << "vec2 strictly inferior to vec3" : std::cout << "vec2 not strictly inferior to vec3";
     std::cout << std::endl;
 
-    while (std::cin.get() != '\n')
-    {
-    }
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
+
+void performance_test()
+{
+    int i = 0;
+    std::cout << "PERFORMANCE COMPARISION BETWEEN STD AND FT" << std::endl;
+    double start = catch_time();
+    NAMESPACE::vector<int> myvec;
+    while (i < 10000000)
+    {
+        myvec.push_back(i * 2);
+        i++;
+    }
+    double end = catch_time() - start;
+    std::cout << " timer map -> " << std::setprecision(4) << std::fixed << end << " ms" << std::endl;
+}
+
 void vector_test()
 {
     vector_constructor_test();
@@ -485,7 +530,9 @@ void vector_test()
     vector_push_back_test();
     vector_pop_back_test();
     vector_resize_test();
+    vector_reserve_test();
     vector_swap_values_test();
     vector_swap_vec_test();
     vector_comparision_test();
-}
+    performance_test();
+};

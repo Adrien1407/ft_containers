@@ -6,20 +6,21 @@
 #    By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/25 14:28:17 by adlancel          #+#    #+#              #
-#    Updated: 2022/09/28 14:39:47 by adlancel         ###   ########.fr        #
+#    Updated: 2022/10/13 18:00:22 by adlancel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-FT = ft
+
 STD = std
+FT = ft
 
 NAME_FT = ft_containers 
 NAME_STD = std_containers 
 
-SRCS = vector.cpp \
-main.cpp \
+SRCS = main.cpp \
+vector.cpp \
 map.cpp \
-			# stack.cpp \
-			# set.cpp \
+set.cpp \
+# stack.cpp \
 
 INCLUDES = -I ./srcs/
 

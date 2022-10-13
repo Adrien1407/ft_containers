@@ -6,9 +6,10 @@
 /*   By: adlancel <adlancel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:55:48 by adlancel          #+#    #+#             */
-/*   Updated: 2022/10/12 12:55:55 by adlancel         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:03:55 by adlancel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifdef USE
 #define USING "STD"
 #include <map>
@@ -19,6 +20,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sys/time.h>
+#include "./test.hpp"
 
 template <class Key, class T>
 void print_map(NAMESPACE::map<Key, T> &lst)
@@ -90,6 +93,9 @@ void map_iterators_test()
     std::cout << "const_end = " << (*ite2).first << ", " << (*ite2).second << std::endl;
     std::cout << "const_rbegin = " << (*itrr).first << ", " << (*itrr).second << std::endl;
     std::cout << "const_rend = " << (*itre2).first << ", " << (*itre2).second << std::endl;
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 
 void map_access_op_test()
@@ -104,6 +110,9 @@ void map_access_op_test()
     std::cout << "we try to access and change value of mymap[1] (B)" << std::endl;
     mymap[1] = '&';
     print_map(mymap);
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 
 void map_capacity_test()
@@ -127,6 +136,9 @@ void map_capacity_test()
     mymap.erase(mymap.begin());
     std::cout << "new size = " << mymap.size() << std::endl;
     std::cout << std::endl;
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void map_clear_test()
 {
@@ -139,6 +151,9 @@ void map_clear_test()
     std::cout << "before clear, size = " << mymap.size() << std::endl;
     mymap.clear();
     std::cout << "after clear, size = " << mymap.size() << std::endl;
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void map_insert_test()
 {
@@ -160,6 +175,9 @@ void map_insert_test()
     NAMESPACE::map<int, std::string>::iterator it = mymap.begin();
     mymap2.insert(it, NAMESPACE::make_pair<int, std::string>(0, "joe"));
     print_map(mymap2);
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void map_erase_test()
 {
@@ -178,18 +196,103 @@ void map_erase_test()
     NAMESPACE::map<int, std::string>::iterator it = mymap.find(11);
     mymap.erase(it, mymap.end());
     print_map(mymap);
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void map_swap_values_test()
 {
-    std::cout << std::setw(30) << "MAP SWAP VALUES TEST" << std::endl;
-}
-void map_swap_vec_test()
-{
     std::cout << std::setw(30) << "MAP SWAP TEST" << std::endl;
+    NAMESPACE::map<int, std::string> mymap;
+    NAMESPACE::map<int, std::string> mymap2;
+    for (int i = 0; i < 10; i++)
+    {
+        mymap.insert(NAMESPACE::make_pair(i * 2 + 1, "bonjour"));
+        mymap2.insert(NAMESPACE::make_pair(i, "hello"));
+    }
+    std::cout << "first map contains :" << std::endl;
+
+    print_map(mymap);
+    std::cout << "second map contains :" << std::endl;
+    print_map(mymap2);
+    std::cout << "we swap maps" << std::endl;
+    mymap.swap(mymap2);
+    std::cout << "first map contains :" << std::endl;
+    print_map(mymap);
+    std::cout << "we swap again with non member method" << std::endl;
+    swap(mymap, mymap2);
+    std::cout << "first map contains :" << std::endl;
+    print_map(mymap);
+
+    // while (std::cin.get() != '\n')
+    // {
+    // }
 }
 void map_comparision_test()
 {
     std::cout << std::setw(30) << "MAP COMPARISION TEST" << std::endl;
+    std::cout << std::endl;
+    NAMESPACE::map<int, char> mymap;
+    NAMESPACE::map<int, char> mymap2;
+    char c = 'a';
+    for (int i = 0; i < 10; i++)
+    {
+        mymap.insert(NAMESPACE::make_pair(i, c));
+        mymap2.insert(NAMESPACE::make_pair(i, c++));
+    }
+    print_map(mymap);
+    print_map(mymap2);
+    std::cout << "map1 = map2? ";
+    (mymap == mymap2) ? std::cout << "maps are equal" : std::cout << "maps are not equal";
+    std::cout << std::endl;
+    NAMESPACE::map<int, char> mymap3;
+    for (int i = 0; i < 10; i++)
+        mymap3.insert(NAMESPACE::make_pair(i, c++));
+    std::cout << "we create a third map, different from first 2" << std::endl;
+    print_map(mymap3);
+    std::cout << "map3 == map? ";
+    (mymap3 == mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << "map2 != map ? ";
+    (mymap3 != mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << "map3 >= map ? ";
+    (mymap3 >= mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << "map3 > map ? ";
+    (mymap3 > mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << "map3 <= map ? ";
+    (mymap3 <= mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+    std::cout << "map3 < map ? ";
+    (mymap3 < mymap) ? std::cout << "yes" : std::cout << "no";
+    std::cout << std::endl;
+
+    // while (std::cin.get() != '\n')
+    // {
+    // }
+}
+
+void map_performance_test()
+{
+    int i = 0;
+    std::cout << "PERFORMANCE COMPARISION BETWEEN STD AND FT" << std::endl;
+    // struct timeval time;
+    // gettimeofday(&time, NULL);
+    double start = catch_time();
+    // std::cout << start << std::endl;
+
+    NAMESPACE::map<int, int> mymap;
+
+    while (i < 10000000)
+    {
+        mymap.insert(NAMESPACE::make_pair(i, i * 2));
+        i++;
+    }
+    double end = catch_time() - start;
+
+    std::cout << " timer map -> " << std::setprecision(4) << std::fixed << end << " ms" << std::endl;
 }
 
 void map_test()
@@ -204,6 +307,6 @@ void map_test()
     map_insert_test();
     map_erase_test();
     map_swap_values_test();
-    map_swap_vec_test();
     map_comparision_test();
+    map_performance_test();
 }
